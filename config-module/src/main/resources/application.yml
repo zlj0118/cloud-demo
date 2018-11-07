@@ -10,3 +10,10 @@ spring:
     active: native
   application:
     name: config-module
+
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    mode: HTML5
+    servlet:
+      content-type: text/html
