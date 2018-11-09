@@ -15,7 +15,7 @@
         </a><b></b>
     </div>
 </div>
-<form id="formlogin" method="post" onsubmit="return false;">
+<form id="formlogin" method="post">
     <div class=" w1" id="entry">
         <div class="mc " id="bgDiv">
             <div id="entry-bg" clstag="passport|keycount|login|02"
@@ -61,7 +61,7 @@
     </div>
 </form>
 <script type="text/javascript">
-    var redirectUrl = "${redirect}";
+    var redirectUrl = "";
     var LOGIN = {
         checkInput: function () {
             if ($("#loginname").val() == "") {
@@ -77,16 +77,14 @@
             return true;
         },
         doLogin: function () {
-            $.post("localhost:8769/login/login", $("#formlogin").serialize(), function (data) {
-                if (data.status == 200) {
+            $.post("http://localhost:8769/login/login", $("#formlogin").serialize(), function (data) {
+                console.log(data.code)
+                if (data.code == 200) {
                     alert("登录成功！");
-                    if (redirectUrl == "") {
-                        location.href = "http://localhost:8787";
-                    } else {
-                        location.href = redirectUrl;
-                    }
+                    if (redirectUrl == "")
+                        window.location.href="http://localhost:8787/index.html";
                 } else {
-                    alert("登录失败，原因是：" + data.msg);
+                    alert("登录失败，原因是：" + data.message);
                     $("#loginname").select();
                 }
             });

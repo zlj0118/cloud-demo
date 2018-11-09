@@ -22,6 +22,7 @@ public class LoginServiceImpl implements LoginService {
     public ResultWrapper findByUsername(String username, String password) {
         User user = repository.findByUsername(username);
         System.out.println(user);
+
         if (user.getUsername().equals(username)&&user.getPassword().equals(password)){
             return ResultWrapper.success(user);
         }

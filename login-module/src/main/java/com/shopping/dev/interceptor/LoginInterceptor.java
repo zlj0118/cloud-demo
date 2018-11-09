@@ -13,17 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getHeader("Authentication");
-        try {
-//            String newToken = JwtUtils.autoRequire(token);
-            JwtToken jwtToken = new JwtToken(token);
-            SecurityUtils.getSubject().login(jwtToken);
-            String newToken = (String) SecurityUtils.getSubject().getPrincipal();
-            response.addHeader("Authentication", newToken);
-            return  true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw  new NullPointerException("请重新登录");
-        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        System.out.println("LoginInterceptor.preHandle");
+        return  true;
+//        String token = request.getHeader("Authentication");
+//        try {
+////            String newToken = JwtUtils.autoRequire(token);
+//            JwtToken jwtToken = new JwtToken(token);
+//            SecurityUtils.getSubject().login(jwtToken);
+//            String newToken = (String) SecurityUtils.getSubject().getPrincipal();
+//            response.addHeader("Authentication", newToken);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw  new NullPointerException("请重新登录");
+//        }
     }
 }
