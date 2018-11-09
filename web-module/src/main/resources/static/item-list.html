@@ -6,7 +6,13 @@
 </head>
 <body>
 <table class="easyui-datagrid" id="itemList" title="商品列表"
-       data-options="singleSelect:false,collapsible:true,pagination:true,url:'/item/list',method:'get',pageSize:30,toolbar:toolbar">
+       data-options="singleSelect:false,
+       collapsible:true,
+       pagination:true,
+       url:'http://localhost:8792/item/list',
+       method:'get',
+       pageSize:30,
+       toolbar:toolbar">
     <thead>
     <tr>
         <th data-options="field:'ck',checkbox:true"></th>
@@ -24,7 +30,7 @@
     </thead>
 </table>
 <div id="itemEditWindow" class="easyui-window" title="编辑商品"
-     data-options="modal:true,closed:true,iconCls:'icon-save',href:'/rest/page/item-edit'"
+     data-options="modal:true,closed:true,iconCls:'icon-save',href:'/item-edit.html'"
      style="width:80%;height:80%;padding:10px;">
 </div>
 <script>
@@ -99,6 +105,7 @@
                                 html += "</li></table>";
                             }
                             html += "</ul>";
+                            console.log(html);
                             $("#itemeEditForm .params td").eq(1).html(html);
                         }
                     });
