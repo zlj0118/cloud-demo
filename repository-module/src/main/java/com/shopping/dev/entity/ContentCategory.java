@@ -1,8 +1,13 @@
 package com.shopping.dev.entity;
 
+import javax.persistence.*;
 
+@Entity
+@Table(name = "tb_contentCategory")
 public class ContentCategory {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private Long parentId;
   private String name;
