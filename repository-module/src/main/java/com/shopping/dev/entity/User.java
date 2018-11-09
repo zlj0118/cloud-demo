@@ -1,7 +1,7 @@
 package com.shopping.dev.entity;
 
-
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "tb_user")
@@ -80,4 +80,15 @@ public class User {
         this.updated = updated;
     }
 
+    public User() {
+    }
+
+    public User(String username, String password, String phone, String email, Timestamp created, Timestamp updated) {
+        this.username = username;
+        this.password = password;
+        this.phone = phone;
+        this.email = email;
+        this.created = created;
+        this.updated = updated;
+    }
 }
