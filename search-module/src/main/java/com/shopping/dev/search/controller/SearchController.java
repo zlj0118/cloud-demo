@@ -21,10 +21,11 @@ public class SearchController {
     public List<Item> searchAll() {
         return searchRepository.findAll();
     }
-
-    @RequestMapping("/search")
-    public String search() {
-        return "";
-    }
+//
+//    @ResponseBody
+//    @RequestMapping("/search")
+//    public String search() {
+//        return "search.html";
+//    }
 
 }
