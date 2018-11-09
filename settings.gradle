@@ -14,4 +14,8 @@ include ':config-module',
         ':repository-module',
         ':web-module',
         ':front-module',
+        ':login-module',
+        ':register-module',
+        ':commons-module',
         ':admin-module'
+
