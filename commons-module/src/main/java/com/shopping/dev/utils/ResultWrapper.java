@@ -2,7 +2,7 @@ package com.shopping.dev.utils;
 
 /**
  * @author:毕胜朋
- * @date:2018/11/8 15:06
+ * @date:2018/11/1 19:18
  */
 
 public class ResultWrapper {
@@ -15,6 +15,7 @@ public class ResultWrapper {
     }
 
     public ResultWrapper(boolean status, int code, String message, Object data) {
+
         this.status = status;
         this.code = code;
         this.message = message;
@@ -59,5 +60,15 @@ public class ResultWrapper {
 
     public static ResultWrapper error(int code, String message) {
         return new ResultWrapper(false, code, message, null);
+    }
+
+    @Override
+    public String toString() {
+        return "ResultWrapper{" +
+                "status=" + status +
+                ", code=" + code +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
     }
 }

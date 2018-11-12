@@ -16,13 +16,10 @@
     <div data-options="iconCls:'icon-remove',name:'delete'">删除</div>
 </div>
 <script type="text/javascript">
+    var url_header = 'http://localhost:8792';
     $(function(){
         $("#contentCategory").tree({
-<<<<<<< HEAD
-            url : '/content/category/list',
-=======
-            url : 'http://localhost:8792/content/category/list',
->>>>>>> 4fcb0d69e19572bb1770eacf5f894e0233c49a4a
+            url : url_header + '/content/category/list',
             animate: true,
             method : "GET",
             onContextMenu: function(e,node){
