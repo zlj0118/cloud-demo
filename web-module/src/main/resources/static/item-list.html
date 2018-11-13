@@ -6,7 +6,13 @@
 </head>
 <body>
 <table class="easyui-datagrid" id="itemList" title="商品列表"
-       data-options="singleSelect:false,collapsible:true,pagination:true,url:'/item/list',method:'get',pageSize:30,toolbar:toolbar">
+       data-options="singleSelect:false,
+       collapsible:true,
+       pagination:true,
+       url:'http://localhost:8792/item/list',
+       method:'get',
+       pageSize:20,
+       toolbar:toolbar">
     <thead>
     <tr>
         <th data-options="field:'ck',checkbox:true"></th>
@@ -17,14 +23,14 @@
         <th data-options="field:'price',width:70,align:'right',formatter:SHOP.formatPrice">价格</th>
         <th data-options="field:'num',width:70,align:'right'">库存数量</th>
         <th data-options="field:'barcode',width:100">条形码</th>
-        <th data-options="field:'status',width:60,align:'center',formatter:SHOP.formatItemStatus">状态</th>
+        <th data-options="field:'state',width:60,align:'center',formatter:SHOP.formatItemStatus">状态</th>
         <th data-options="field:'created',width:130,align:'center',formatter:SHOP.formatDateTime">创建日期</th>
         <th data-options="field:'updated',width:130,align:'center',formatter:SHOP.formatDateTime">更新日期</th>
     </tr>
     </thead>
 </table>
 <div id="itemEditWindow" class="easyui-window" title="编辑商品"
-     data-options="modal:true,closed:true,iconCls:'icon-save',href:'/rest/page/item-edit'"
+     data-options="modal:true,closed:true,iconCls:'icon-save',href:'/item-edit.html'"
      style="width:80%;height:80%;padding:10px;">
 </div>
 <script>
@@ -69,7 +75,7 @@
 
                     // 加载商品描述
                     $.getJSON('/rest/item/query/item/desc/' + data.id, function (_data) {
-                        if (_data.status == 200) {
+                        if (_data.state == 200) {
                             //UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
                             itemEditEditor.html(_data.data.itemDesc);
                         }
@@ -77,7 +83,7 @@
 
                     //加载商品规格
                     $.getJSON('/rest/item/param/item/query/' + data.id, function (_data) {
-                        if (_data && _data.status == 200 && _data.data && _data.data.paramData) {
+                        if (_data && _data.state == 200 && _data.data && _data.data.paramData) {
                             $("#itemeEditForm .params").show();
                             $("#itemeEditForm [name=itemParams]").val(_data.data.paramData);
                             $("#itemeEditForm [name=itemParamId]").val(_data.data.id);
@@ -99,6 +105,9 @@
                                 html += "</li></table>";
                             }
                             html += "</ul>";
+                            console.log(html);
+                            console.log(ps.k);
+                            console.log(ps.v);
                             $("#itemeEditForm .params td").eq(1).html(html);
                         }
                     });
@@ -126,7 +135,7 @@
                 if (r) {
                     var params = {"ids": ids};
                     $.post("/rest/item/delete", params, function (data) {
-                        if (data.status == 200) {
+                        if (data.state == 200) {
                             $.messager.alert('提示', '删除商品成功!', undefined, function () {
                                 $("#itemList").datagrid("reload");
                             });
@@ -148,7 +157,7 @@
                 if (r) {
                     var params = {"ids": ids};
                     $.post("/rest/item/instock", params, function (data) {
-                        if (data.status == 200) {
+                        if (data.state == 200) {
                             $.messager.alert('提示', '下架商品成功!', undefined, function () {
                                 $("#itemList").datagrid("reload");
                             });
@@ -170,7 +179,7 @@
                 if (r) {
                     var params = {"ids": ids};
                     $.post("/rest/item/reshelf", params, function (data) {
-                        if (data.status == 200) {
+                        if (data.state == 200) {
                             $.messager.alert('提示', '上架商品成功!', undefined, function () {
                                 $("#itemList").datagrid("reload");
                             });
