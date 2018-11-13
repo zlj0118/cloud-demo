@@ -1,23 +1,38 @@
 package com.shopping.dev.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.solr.client.solrj.beans.Field;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_item")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Field("itemId")
     private Long id;
+    @Field("title")
     private String title;
+    @Field("sellPoint")
     private String sellPoint;
+    @Field("price")
     private Long price;
+    @Field("num")
     private Long num;
+    @Field("barcode")
     private String barcode;
+    @Field("image")
     private String image;
+    @Field("cid")
     private Long cid;
+    @Field("status")
     private Long status;
+    @Field("created")
     private java.sql.Timestamp created;
+    @Field("updated")
     private java.sql.Timestamp updated;
 
 

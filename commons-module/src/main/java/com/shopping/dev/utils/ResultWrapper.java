@@ -60,4 +60,14 @@ public class ResultWrapper {
     public static ResultWrapper error(int code, String message) {
         return new ResultWrapper(false, code, message, null);
     }
+
+    @Override
+    public String toString() {
+        return "ResultWrapper{" +
+                "status=" + status +
+                ", code=" + code +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }
