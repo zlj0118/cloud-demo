@@ -6,7 +6,7 @@ var TTCart = {
 		$(".increment").click(function(){//＋
 			var _thisInput = $(this).siblings("input");
 			_thisInput.val(eval(_thisInput.val()) + 1);
-			$.post("/cart/update/num/"+_thisInput.attr("itemId")+"/"+_thisInput.val() + ".action",function(data){
+			$.get("http://localhost:8770/cart/update/num?"+"itemId="+_thisInput.attr("itemId")+"&itemNum="+_thisInput.val() ,function(data){
 				TTCart.refreshTotalPrice();
 			});
 		});
@@ -16,15 +16,17 @@ var TTCart = {
 				return ;
 			}
 			_thisInput.val(eval(_thisInput.val()) - 1);
-			$.post("/cart/update/num/"+_thisInput.attr("itemId")+"/"+_thisInput.val() + ".action",function(data){
-				TTCart.refreshTotalPrice();
+            $.get("http://localhost:8770/cart/update/num?"+"itemId="+_thisInput.attr("itemId")+"&itemNum="+_thisInput.val() ,function(data){
+
+                TTCart.refreshTotalPrice();
 			});
 		});
-		$(".quantity-form .quantity-text").rnumber(1);//限制只能输入数字
-		$(".quantity-form .quantity-text").change(function(){
+		$(".quantity-text").rnumber(1);//限制只能输入数字
+		$(".quantity-text").blur(function(){
 			var _thisInput = $(this);
-			$.post("/service/cart/update/num/"+_thisInput.attr("itemId")+"/"+_thisInput.val(),function(data){
-				TTCart.refreshTotalPrice();
+            console.log("==========itemId"+_thisInput.attr("itemId"));
+            $.get("http://localhost:8770/cart/update/num?"+"itemId="+_thisInput.attr("itemId")+"&itemNum="+_thisInput.val() ,function(data){
+                TTCart.refreshTotalPrice();
 			});
 		});
 	},
@@ -34,7 +36,7 @@ var TTCart = {
 			var _this = $(e);
 			total += (eval(_this.attr("itemPrice")) * 10000 * eval(_this.val())) / 10000;
 		});
-		$(".totalSkuPrice").html(new Number(total/100).toFixed(2)).priceFormat({ //价格格式化插件
+		$(".totalSkuPrice").html(new Number(total).toFixed(2)).priceFormat({ //价格格式化插件
 			 prefix: '￥',
 			 thousandsSeparator: ',',
 			 centsLimit: 2
@@ -45,4 +47,5 @@ var TTCart = {
 $(function(){
 	TTCart.load();
 	TTCart.itemNumChange();
+
 });

@@ -13,4 +13,6 @@ include ':config-module',
         ':user-module',
         ':repository-module',
         ':web-module',
-        ':front-module'
+        ':front-module',
+        ':cart-module',
+        ':commons-module'

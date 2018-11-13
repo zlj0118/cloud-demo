@@ -5,9 +5,10 @@ import javax.annotation.Resource;
 public class Test {
 
     @Resource
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public void test() {
-//        userRepository.findAll()
+        System.out.println("test");
+        userRepository.findAll();
     }
 }
