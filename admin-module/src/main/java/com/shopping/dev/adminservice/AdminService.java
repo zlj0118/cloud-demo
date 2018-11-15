@@ -1,18 +1,19 @@
 package com.shopping.dev.adminservice;
 
-import com.shopping.dev.entity.ContentCategoryForEasyUiTree;
-import com.shopping.dev.entity.ItemCartForEasyUiTree;
-import com.shopping.dev.entity.ContentCategory;
-import com.shopping.dev.entity.Item;
+import com.shopping.dev.admincontroller.addparams.addTotalParams;
+import com.shopping.dev.entity.*;
 
 import java.util.List;
 
 public interface AdminService {
-    List<Item> findAllItem(Integer page, Integer row);
+    addTotalParams<Item> findAllItem(int page, int rows);
 
     List<ItemCartForEasyUiTree> findAllItemCat(int id);
 
-    List<ContentCategoryForEasyUiTree> findAllContentCategory(int id);
+    addTotalParams<ItemParamAddItemCatName> findAllItemParam(int page, int rows);
 
+    List<ContentCategoryForEasyUiTree> findAllContentCategory();
+
+    addTotalParams<Content> findAllContent(int categoryId, int begin, int rows);
 
 }

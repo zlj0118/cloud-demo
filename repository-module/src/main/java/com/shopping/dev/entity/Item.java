@@ -1,6 +1,5 @@
 package com.shopping.dev.entity;
 
-<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.solr.client.solrj.beans.Field;
 
@@ -35,27 +34,6 @@ public class Item {
     private java.sql.Timestamp created;
     @Field("updated")
     private java.sql.Timestamp updated;
-=======
-import javax.persistence.*;
-
-@Entity
-@Table(name = "tb_item")
-public class Item {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  private String title;
-  private String sellPoint;
-  private Long price;
-  private Long num;
-  private String barcode;
-  private String image;
-  private Long cid;
-  private Long status;
-  private java.sql.Timestamp created;
-  private java.sql.Timestamp updated;
->>>>>>> b81c5193a90d33e8ae00178a7b2b64f5205c43d0
 
 
     public Long getId() {

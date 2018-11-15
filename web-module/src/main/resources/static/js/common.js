@@ -31,7 +31,7 @@ var TT = SHOP = {
 	},
 	// 格式化时间
 	formatDateTime : function(val,row){
-		var now = new Date(val);
+        var now = new Date(val);
     	return now.format("yyyy-MM-dd hh:mm:ss");
 	},
 	// 格式化连接
@@ -47,9 +47,10 @@ var TT = SHOP = {
 	},
 	// 格式化商品的状态
 	formatItemStatus : function formatStatus(val,row){
-        if (val == 1){
+		console.log(val);
+        if (val === 1){
             return '正常';
-        } else if(val == 2){
+        } else if(val === 2){
         	return '<span style="color:red;">下架</span>';
         } else {
         	return '未知';
