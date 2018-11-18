@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface AdminItemParamRepository extends JpaRepository<ItemParam, Long> {
@@ -23,6 +22,6 @@ public interface AdminItemParamRepository extends JpaRepository<ItemParam, Long>
     int findTotal();
 
     @Modifying
-    @Query(value = "update tb_item_param set status = 0 where id in ?;", nativeQuery = true)
-    void deleteItemParamByIds(List<Long> ids);
+    @Query(value = "update tb_item_param set status = 0 where id in (:ids);", nativeQuery = true)
+    int deleteItemParamByIds(@Param("ids") List<Long> ids);
 }

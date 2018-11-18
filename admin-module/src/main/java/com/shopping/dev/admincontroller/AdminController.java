@@ -61,8 +61,6 @@ public class AdminController {
     // 删除
     @PostMapping("item/param/delete")
     public MyResultWrapper deleteItemParamByIds(@RequestParam List<Long> ids) {
-        System.out.println(ids.get(0));
-        System.out.println(ids.get(1));
         if (adminService.deleteItemParamByIds(ids)) return MyResultWrapper.success();
         else return MyResultWrapper.error();
     }

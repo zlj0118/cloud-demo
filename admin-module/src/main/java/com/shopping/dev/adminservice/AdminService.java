@@ -25,6 +25,7 @@ public interface AdminService {
     int updateNameByCategoryId(String name, long id);
     boolean deleteOneByCategoryId(long id);
 
+    //-------------------------------内容管理------------------------------------
     addTotalParams<Content> findAllContent(int categoryId, int begin, int rows);
 
 }

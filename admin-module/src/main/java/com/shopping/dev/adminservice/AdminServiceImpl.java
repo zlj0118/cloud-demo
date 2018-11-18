@@ -78,8 +78,8 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     @Override
     public boolean deleteItemParamByIds(List<Long> ids) {
-        adminItemParamRepository.deleteItemParamByIds(ids);
-        return 1 > 0;
+        int result = adminItemParamRepository.deleteItemParamByIds(ids);
+        return result > 0;
     }
 
 
@@ -167,20 +167,15 @@ public class AdminServiceImpl implements AdminService {
 
 
     //-------------------------------内容管理------------------------------------
+    // 查询,通过sql语句实现当categoryId=0时显示全部,其他时候按categoryId筛选
     @Override
     public addTotalParams<Content> findAllContent(int categoryId, int page, int rows) {
-        List<Content> contents;
-        int total;
-        if (categoryId == 0) {
-            Pageable pageable = PageRequest.of(--page, rows);
-            contents = adminContentRepository.findAll(pageable).getContent();
-            total = adminContentRepository.findTotal();
-        } else {
-            int begin = (page - 1) * rows;
-            contents = adminContentRepository.findAllByCategoryId(categoryId, begin, rows);
-            System.out.println(begin);
-            total = adminContentRepository.findTotal();
-        }
+        int begin = (page - 1) * rows;
+        List<Content> contents = adminContentRepository.findAllByCategoryId(categoryId, categoryId, begin, rows);
+        int total = adminContentRepository.findTotal(categoryId, categoryId);
         return new addTotalParams<>(contents, total);
     }
+
+    // 删除
+
 }
