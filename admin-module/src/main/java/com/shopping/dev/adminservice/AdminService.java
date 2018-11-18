@@ -4,6 +4,7 @@ import com.shopping.dev.admincontroller.addparams.addTotalParams;
 import com.shopping.dev.entity.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface AdminService {
@@ -14,6 +15,9 @@ public interface AdminService {
 
     //-----------------------------规格参数-----------------------------------------
     addTotalParams<ItemParamAddItemCatName> findAllItemParam(int page, int rows);
+    boolean findItemParamById(long id);
+    boolean addItemParam(long item_cat_id, String paramData);
+    boolean deleteItemParamByIds(List<Long> ids);
 
     //-------------------------内容分类管理------------------------------------
     List<ContentCategoryForEasyUiTree> findAllContentCategory();

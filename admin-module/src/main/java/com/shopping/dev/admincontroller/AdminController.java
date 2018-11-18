@@ -4,13 +4,11 @@ import com.shopping.dev.admincontroller.addparams.addTotalParams;
 import com.shopping.dev.adminservice.AdminService;
 import com.shopping.dev.entity.*;
 import com.shopping.dev.resultwrapper.MyResultWrapper;
-import com.shopping.dev.utils.ResultWrapper;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -44,6 +42,31 @@ public class AdminController {
         return adminService.findAllItemParam(page, rows);
     }
 
+    // 新增.查看该id是否已在表中
+    @GetMapping("item/param/query/itemcatid/{id}")
+    public MyResultWrapper findItemParamById(@PathVariable long id) {
+        if (adminService.findItemParamById(id)) return MyResultWrapper.success("exits");
+        else return MyResultWrapper.error();
+    }
+
+    // 插入数据
+    @PostMapping("item/param/save/{id}")
+    public MyResultWrapper addItemParam(
+            @PathVariable(name = "id") long item_cat_id,
+            @RequestParam String paramData) {
+        if (adminService.addItemParam(item_cat_id, paramData)) return MyResultWrapper.success();
+        else return MyResultWrapper.error();
+    }
+
+    // 删除
+    @PostMapping("item/param/delete")
+    public MyResultWrapper deleteItemParamByIds(@RequestParam List<Long> ids) {
+        System.out.println(ids.get(0));
+        System.out.println(ids.get(1));
+        if (adminService.deleteItemParamByIds(ids)) return MyResultWrapper.success();
+        else return MyResultWrapper.error();
+    }
+
 
     //-------------------------内容分类管理------------------------------------
     // 查询tb_content_category,返回表中全部内容集合
@@ -73,6 +96,8 @@ public class AdminController {
         else return MyResultWrapper.error();
     }
 
+
+    //-------------------------------内容管理------------------------------------
     // 内容管理,查询tb_content
     @GetMapping("content/query/list")
     public addTotalParams<Content> findAllContent(

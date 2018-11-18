@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +30,7 @@ public class AdminServiceImpl implements AdminService {
     private AdminContentCategoryRepository adminContentCategoryRepository;
 
     //------------------------------查询商品-----------------------------------
+    // 查询商品.分页
     @Override
     public addTotalParams<Item> findAllItem(int page, int rows) {
         int begin = (page - 1) * rows;
@@ -40,12 +40,14 @@ public class AdminServiceImpl implements AdminService {
         return new addTotalParams<>(items, total);
     }
 
+    // 商品类目列表
     @Override
     public List<ItemCartForEasyUiTree> findAllItemCat(int id) {
         return adminItemCatRepository.findItemCatByParentId(id);
     }
 
     //-----------------------------规格参数-----------------------------------------
+    // 查询
     @Override
     public addTotalParams<ItemParamAddItemCatName> findAllItemParam(int page, int rows) {
         // 将前段页数,条数转换成limit参数
@@ -54,6 +56,30 @@ public class AdminServiceImpl implements AdminService {
         // 查询总条数
         int total = adminItemParamRepository.findTotal();
         return new addTotalParams<>(itemParams, total);
+    }
+
+    // 增加
+    @Override
+    // 查询增加项是否已存在
+    public boolean findItemParamById(long id) {
+        Optional<ItemParam> itemParamOptional = adminItemParamRepository.findById(id);
+        return (itemParamOptional.isPresent() && itemParamOptional.get().getStatus() != 0);
+    }
+
+    // 插入数据
+    @Override
+    public boolean addItemParam(long item_cat_id, String paramData) {
+        ItemParam itemParam = new ItemParam(item_cat_id, paramData, GetTime.now(), null);
+        ItemParam param = adminItemParamRepository.saveAndFlush(itemParam);
+        return (param.getParamData() != null && param.getItemCatId() != null);
+    }
+
+    // 删除
+    @Transactional
+    @Override
+    public boolean deleteItemParamByIds(List<Long> ids) {
+        adminItemParamRepository.deleteItemParamByIds(ids);
+        return 1 > 0;
     }
 
 
@@ -140,6 +166,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
 
+    //-------------------------------内容管理------------------------------------
     @Override
     public addTotalParams<Content> findAllContent(int categoryId, int page, int rows) {
         List<Content> contents;
