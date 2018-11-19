@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="text/javascript" src="js/base-v1.js" charset="utf-8"></script>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
 </head>
 <body>
 <!--shortcut start-->
@@ -23,8 +23,9 @@
                 </ul>
                 <div class="form">
                     <input type="text" class="text" accesskey="s" id="key" autocomplete="off"
-                           onkeydown="javascript:if(event.keyCode==13) search('key');">
-                    <input type="button" value="搜索" class="button" onclick="search('key');return false;"
+                           onkeydown="javascript:if(event.keyCode==13) mySearch('key');">
+                    <input type="button" value="搜索" class="button" onclick="mySearch
+                    ('key');return false;"
                            clstag="homepage|keycount|home2013|03a">
                 </div>
             </div>
@@ -180,6 +181,10 @@
             if (object) object.className += " curr";
         }
     })();
+    function mySearch(a) {
+        var b = "http://localhost:8787/search.html?keywords=" + encodeURIComponent(document.getElementById(a).value);
+        return window.location.href = b;
+    }
 </script>
 </body>
 </html>

@@ -3,22 +3,24 @@ package com.shopping.dev.search.controller;
 import com.shopping.dev.entity.Item;
 import com.shopping.dev.repository.SearchRepository;
 import com.shopping.dev.search.service.SearchService;
-import com.shopping.dev.utils.FileUpload;
 import com.shopping.dev.utils.ResultWrapper;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.awt.image.Kernel;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/search")
@@ -32,17 +34,10 @@ public class SearchController {
     @Resource
     private SolrClient solr;
 
-
-    @RequestMapping("/all")
-    @ResponseBody
-    public ResultWrapper searchAll() {
-        return searchService.findAll();
-    }
-
     @ResponseBody
     @RequestMapping("/add")
     public void addBean() throws IOException, SolrServerException {
-        solr = new HttpSolrClient.Builder("http://localhost:8983/solr/search").build();
+        solr.deleteByQuery("*:*");
         // 从数据库查出所有的user,UserService操作数据库部分的代码省略
         List<Item> items = searchRepository.findAll();
         // 添加
@@ -53,33 +48,57 @@ public class SearchController {
 
     @RequestMapping("/solr")
     @ResponseBody
-    public List<Item> solrSearch() throws IOException, SolrServerException {
-
-        solr = new HttpSolrClient.Builder("http://localhost:8983/solr/search").build();
-        // 构造搜索条件
+    public ResultWrapper
+    solrSearch(@RequestParam(value = "keywords", defaultValue = "") String searchKeywords,
+               @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+               @RequestParam(value = "rows", defaultValue = "20") Integer rows)
+            throws IOException, SolrServerException {
         SolrQuery solrQuery = new SolrQuery();
+        Map<String, Object> map = new HashMap<>();
 
-        // 设置搜索关键词
-        solrQuery.setQuery("price:1100");
-
-        // 设置分页信息
-        solrQuery.setStart(0);
-        solrQuery.setRows(6);
-        System.out.println(solrQuery);
-        // 执行查询
-        QueryResponse response = solr.query(solrQuery);
-        System.out.println(response);
-
-        // 获取查询结果
-        List<Item> itemsList = response.getBeans(Item.class);
-        return itemsList;
-    }
-
-    @RequestMapping("/upload")
-    @ResponseBody
-    public String upload(@RequestParam(value = "image") MultipartFile file) throws Exception {
-        String s = FileUpload.fileUpload(file);
-        System.out.println(s);
-        return s;
+        // 如果搜索条件不为空 则设置关键词 如果搜索条件为空 查询所有
+        if (searchKeywords != null && !searchKeywords.equals("")) {
+            // 设置搜索关键词
+            solrQuery.setQuery("searchKeywords:" + searchKeywords);
+            // 执行第一次查询 不带分页信息 查询符合条件所有数据
+            QueryResponse response = solr.query(solrQuery);
+            // 获取总数据长度
+            Integer totalData = Math.toIntExact(response.getResults().getNumFound());
+            // 判断总页数
+            Integer totalPage = totalData / rows;
+            // 当前页码从1开始 页码
+            currentPage = currentPage <= 0 ? 1 : currentPage;
+            totalPage = totalPage == 0 ? 1 : totalPage;
+            currentPage = currentPage >= totalPage ? totalPage : currentPage;
+            Integer start = (currentPage - 1) * rows;
+            solrQuery.setStart(start);
+            solrQuery.setRows(rows);
+            List<Item> items = solr.query(solrQuery).getBeans(Item.class);
+            map.put("list", items);
+            map.put("totalPage", totalPage);
+            map.put("keyword", searchKeywords);
+            map.put("currentPage", currentPage);
+            return ResultWrapper.success(map);
+        } else {
+            solrQuery.setQuery("*:*");
+            QueryResponse response = solr.query(solrQuery);
+            // 获取总数据长度
+            Integer totalData = Math.toIntExact(response.getResults().getNumFound());
+            // 判断总页数
+            Integer totalPage = totalData / rows;
+            // 当前页码从1开始 页码
+            currentPage = currentPage <= 0 ? 1 : currentPage;
+            totalPage = totalPage == 0 ? 1 : totalPage;
+            currentPage = currentPage >= totalPage ? totalPage : currentPage;
+            Integer start = (currentPage - 1) * rows;
+            solrQuery.setStart(start);
+            solrQuery.setRows(rows);
+            List<Item> items = solr.query(solrQuery).getBeans(Item.class);
+            map.put("list", items);
+            map.put("totalPage", totalPage);
+            map.put("keyword", searchKeywords);
+            map.put("currentPage", currentPage);
+            return ResultWrapper.success(map);
+        }
     }
 }

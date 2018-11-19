@@ -40,25 +40,12 @@ public class SimpleRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         // 因为认证的时候存储的是userInfo对象,所以这里取出来
         // 也是userInfo对象
-//      SecurityUtils.getSubject().getPrincipal();
         // 获取登录成功时存储的主要信息
         Object principal = principals.getPrimaryPrincipal();
         // 实际上是token
         String jwtToken = (String) principal;
         // 从token信息中获取出用户id
         Integer userId = JwtUtils.getUserId(jwtToken);
-
-//        User user = service.findByUsername(String username,String password);
-//
-//        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-////        for (SysRole role : user.getRoleList()) {
-////            info.addRole(role.getRole());
-////            for (SysPermission permission : role.getPermissions()) {
-////                info.addStringPermission(permission.getPermission());
-////            }
-////        }
-//
-//        return info;
         return  null;
     }
 
