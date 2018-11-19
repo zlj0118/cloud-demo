@@ -2,6 +2,7 @@ package com.shopping.dev.adminservice;
 
 import com.shopping.dev.admincontroller.addparams.addTotalParams;
 import com.shopping.dev.entity.*;
+import com.shopping.dev.resultwrapper.MyResultWrapper;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -27,5 +28,6 @@ public interface AdminService {
 
     //-------------------------------内容管理------------------------------------
     addTotalParams<Content> findAllContent(int categoryId, int begin, int rows);
+    boolean deleteContentByIds(List<Long> ids);
 
 }

@@ -5,9 +5,10 @@ import com.shopping.dev.adminservice.AdminService;
 import com.shopping.dev.entity.*;
 import com.shopping.dev.resultwrapper.MyResultWrapper;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +17,12 @@ public class AdminController {
 
     @Resource
     private AdminService adminService;
+
+    @PostMapping("pic/upload")
+    public void picture(MultipartFile uploadFile) throws IOException {
+        System.out.println(Arrays.toString(uploadFile.getBytes()));
+
+    }
 
     //------------------------------查询商品-----------------------------------
     // 查询商品,查询tb_item
@@ -103,5 +110,12 @@ public class AdminController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int rows) {
         return adminService.findAllContent(categoryId, page, rows);
+    }
+
+    // 删除
+    @PostMapping("content/delete")
+    public MyResultWrapper deleteContentByIds(@RequestParam List<Long> ids) {
+        if (adminService.deleteContentByIds(ids)) return MyResultWrapper.success();
+        else return MyResultWrapper.error();
     }
 }

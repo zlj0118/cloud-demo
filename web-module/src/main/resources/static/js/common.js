@@ -25,7 +25,7 @@ var TT = SHOP = {
 		//指定上传文件参数名称
 		filePostName  : "uploadFile",
 		//指定上传文件请求的url。
-		uploadJson : '/pic/upload',
+		uploadJson : 'http://localhost:8792/pic/upload',
 		//上传类型，分别为image、flash、media、file
 		dir : "image"
 	},

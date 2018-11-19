@@ -3,6 +3,7 @@ package com.shopping.dev.adminservice;
 import com.shopping.dev.admincontroller.addparams.addTotalParams;
 import com.shopping.dev.entity.*;
 import com.shopping.dev.repository.*;
+import com.shopping.dev.resultwrapper.MyResultWrapper;
 import com.shopping.dev.utils.GetTime;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -171,11 +172,20 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public addTotalParams<Content> findAllContent(int categoryId, int page, int rows) {
         int begin = (page - 1) * rows;
-        List<Content> contents = adminContentRepository.findAllByCategoryId(categoryId, categoryId, begin, rows);
-        int total = adminContentRepository.findTotal(categoryId, categoryId);
+        List<Content> contents = adminContentRepository.findAllByCategoryId(categoryId, begin, rows);
+        int total = adminContentRepository.findTotal(categoryId);
         return new addTotalParams<>(contents, total);
     }
 
     // 删除
+    @Transactional
+    @Override
+    public boolean deleteContentByIds(List<Long> ids) {
+        int result = adminContentRepository.deleteContentByIds(ids);
+        return result > 0;
+    }
+
+
+
 
 }
