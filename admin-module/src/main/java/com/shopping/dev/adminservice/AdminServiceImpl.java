@@ -36,7 +36,6 @@ public class AdminServiceImpl implements AdminService {
     public addTotalParams<Item> findAllItem(int page, int rows) {
         int begin = (page - 1) * rows;
         List<Item> items = adminItemRepository.findAllItem(begin, rows);
-        System.out.println(items.get(0));
         int total = adminItemRepository.findTotal();
         return new addTotalParams<>(items, total);
     }
@@ -112,21 +111,23 @@ public class AdminServiceImpl implements AdminService {
     // 增加
     @Override
     @Transactional
-    public ContentCategory createOneOfCategory(long parentId, String name) {
+    public boolean createOneOfCategory(long parentId, String name) {
         int i = adminContentCategoryRepository.updateParent(parentId);
         if (i > 0) {
             ContentCategory category = new ContentCategory(parentId, name, 1L, 1L, 0L, GetTime.now(), null);
-            return adminContentCategoryRepository.saveAndFlush(category);
+            ContentCategory categoryResult = adminContentCategoryRepository.saveAndFlush(category);
+            return categoryResult.getId() > 0 && categoryResult.getName() != null && categoryResult.getCreated() != null;
         } else {
-            return null;
+            return false;
         }
     }
 
     // 更改
     @Override
     @Transactional
-    public int updateNameByCategoryId(String name, long id) {
-        return adminContentCategoryRepository.updateName(name, GetTime.now(), id);
+    public boolean updateNameByCategoryId(String name, long id) {
+        int result = adminContentCategoryRepository.updateName(name, GetTime.now(), id);
+        return result > 0;
     }
 
     // 删除
@@ -185,7 +186,28 @@ public class AdminServiceImpl implements AdminService {
         return result > 0;
     }
 
-
-
-
+    // 修改||新增
+    @Transactional
+    @Override
+    public boolean updateOrCreateContentById(Content content) {
+        // 如果前端数据带id,执行修改,不带执行新增
+        if (content.getId() != null) {
+            Optional<Content> optionalContent = adminContentRepository.findById(content.getId());
+            if (optionalContent.isPresent()) {
+                Content contentOld = optionalContent.get();
+                content.setCreated(contentOld.getCreated());
+                content.setUpdated(GetTime.now());
+                content.setStatus(1L);
+                Content contentResult = adminContentRepository.saveAndFlush(content);
+                return contentResult.getId() > 0 && contentResult.getStatus() == 1 && contentResult.getUpdated() != null;
+            } else {
+                return false;
+            }
+        } else {
+            content.setCreated(GetTime.now());
+            content.setStatus(1L);
+            Content contentResult = adminContentRepository.saveAndFlush(content);
+            return contentResult.getId() > 0 && contentResult.getStatus() == 1 && contentResult.getCreated() != null;
+        }
+    }
 }

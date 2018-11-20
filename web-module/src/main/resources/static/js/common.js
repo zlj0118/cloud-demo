@@ -31,8 +31,12 @@ var TT = SHOP = {
 	},
 	// 格式化时间
 	formatDateTime : function(val,row){
-        var now = new Date(val);
-    	return now.format("yyyy-MM-dd hh:mm:ss");
+		console.log(val);
+		if (val !== undefined) {
+            var now = new Date(val);
+            return now.format("yyyy-MM-dd hh:mm:ss");
+		}
+		return "";
 	},
 	// 格式化连接
 	formatUrl : function(val,row){
@@ -47,7 +51,6 @@ var TT = SHOP = {
 	},
 	// 格式化商品的状态
 	formatItemStatus : function formatStatus(val,row){
-		console.log(val);
         if (val === 1){
             return '正常';
         } else if(val === 2){

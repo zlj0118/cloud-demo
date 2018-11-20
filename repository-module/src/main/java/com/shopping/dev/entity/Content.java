@@ -1,9 +1,12 @@
 package com.shopping.dev.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_content")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Content {
 
   @Id
@@ -19,7 +22,25 @@ public class Content {
   private String content;
   private java.sql.Timestamp created;
   private java.sql.Timestamp updated;
+  private Long status;
 
+  @Override
+  public String toString() {
+    return "Content{" +
+            "id=" + id +
+            ", categoryId=" + categoryId +
+            ", title='" + title + '\'' +
+            ", subTitle='" + subTitle + '\'' +
+            ", titleDesc='" + titleDesc + '\'' +
+            ", url='" + url + '\'' +
+            ", pic='" + pic + '\'' +
+            ", pic2='" + pic2 + '\'' +
+            ", content='" + content + '\'' +
+            ", created=" + created +
+            ", updated=" + updated +
+            ", status=" + status +
+            '}';
+  }
 
   public Long getId() {
     return id;
@@ -119,4 +140,11 @@ public class Content {
     this.updated = updated;
   }
 
+  public Long getStatus() {
+    return status;
+  }
+
+  public void setStatus(Long status) {
+    this.status = status;
+  }
 }

@@ -22,12 +22,13 @@ public interface AdminService {
 
     //-------------------------内容分类管理------------------------------------
     List<ContentCategoryForEasyUiTree> findAllContentCategory();
-    ContentCategory createOneOfCategory(long parentId, String name);
-    int updateNameByCategoryId(String name, long id);
+    boolean createOneOfCategory(long parentId, String name);
+    boolean updateNameByCategoryId(String name, long id);
     boolean deleteOneByCategoryId(long id);
 
     //-------------------------------内容管理------------------------------------
     addTotalParams<Content> findAllContent(int categoryId, int begin, int rows);
     boolean deleteContentByIds(List<Long> ids);
+    boolean updateOrCreateContentById(Content content);
 
 }
