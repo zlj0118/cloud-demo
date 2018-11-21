@@ -108,6 +108,7 @@ public class JwtUtils {
         }
     }
     public static  Integer getUserId(String jwtToken){
+        System.out.println("jetToken"+jwtToken);
         return JWT.decode(jwtToken).getClaim("userId").asInt();
     }
 

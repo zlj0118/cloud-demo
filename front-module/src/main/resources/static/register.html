@@ -11,9 +11,9 @@
 <body>
 <div class="w" id="logo">
     <div>
-    	<a href="http://localhost:8082">
-    		<img src="images/shop-logo.gif" alt="商城" width="170" height="60"/>
-    	</a> <b></b>
+        <a href="http://localhost:8082">
+            <img src="images/shop-logo.gif" alt="商城" width="170" height="60"/>
+        </a> <b></b>
     </div>
 </div>
 
@@ -50,7 +50,7 @@
                 </div>
                 <div id="o-password">
                     <div class="item">
-                        <span class="label"><b class="ftx04">*</b>请设置密码：</span> +
+                        <span class="label"><b class="ftx04">*</b>请设置密码：</span>
                         <div class="fl item-ifo">
                             <input type="password" id="pwd" name="password" class="text" tabindex="2"
                                    style="ime-mode:disabled;"
@@ -73,18 +73,18 @@
                             <label id="pwdRepeat_error"></label>
                         </div>
                     </div>
-					<div class="item" id="dphone">
-						<span class="label"><b class="ftx04">*</b>验证手机：</span>
+                    <div class="item" id="dphone">
+                        <span class="label"><b class="ftx04">*</b>验证手机：</span>
 
-						<div class="fl item-ifo">
-							<input type="text" id="phone" maxlength="11" name="phone"
-								class="text" tabindex="4"
-								autocomplete="off" /> <i class="i-phone"></i> <label
-								id="phone_succeed" class="blank"></label> <label
-								id="phone_error"></label>
-						</div>
-					</div>
-					</div>
+                        <div class="fl item-ifo">
+                            <input type="text" id="phone" maxlength="11" name="phone"
+                                   class="text" tabindex="4"
+                                   autocomplete="off"/> <i class="i-phone"></i> <label
+                                id="phone_succeed" class="blank"></label> <label
+                                id="phone_error"></label>
+                        </div>
+                    </div>
+                </div>
                 <div class="item item-new">
                     <span class="label">&nbsp;</span>
 
@@ -106,85 +106,107 @@
             <span class="clr"></span>
         </form>
     </div>
-<script type="text/javascript">
-	var REGISTER={
-		param:{
-			//单点登录系统的url
-			surl:""
-		},
-		inputcheck:function(){
-				//不能为空检查
-				if ($("#regName").val() == "") {
-					alert("用户名不能为空");
-					$("#regName").focus();
-					return false;
-				}
-				if ($("#pwd").val() == "") {
-					alert("密码不能为空");
-					$("#pwd").focus();
-					return false;
-				}
-				if ($("#phone").val() == "") {
-					alert("手机号不能为空");
-					$("#phone").focus();
-					return false;
-				}
-				//密码检查
-				if ($("#pwd").val() != $("#pwdRepeat").val()) {
-					alert("确认密码和密码不一致，请重新输入！");
-					$("#pwdRepeat").select();
-					$("#pwdRepeat").focus();
-					return false;
-				}
-				return true;
-		},
-		beforeSubmit:function() {
-				//检查用户是否已经被占用
-				$.ajax({
-	            	url : REGISTER.param.surl + "/user/check/"+escape($("#regName").val())+"/1?r=" + Math.random(),
-	            	success : function(data) {
-	            		if (data.data) {
-	            			//检查手机号是否存在
-	            			$.ajax({
-	            				url : REGISTER.param.surl + "/user/check/"+$("#phone").val()+"/2?r=" + Math.random(),
-				            	success : function(data) {
-				            		if (data.data) {
-					            		REGISTER.doSubmit();
-				            		} else {
-				            			alert("此手机号已经被注册！");
-				            			$("#phone").select();
-				            		}
-				            	}
-	            			});
-	            		} else {
-	            			alert("此用户名已经被占用，请选择其他用户名");
-	            			$("#regName").select();
-	            		}
-	            	}
-				});
-	            	
-		},
-		doSubmit:function() {
-			$.post("/user/register",$("#personRegForm").serialize(), function(data){
-				if(data.status == 200){
-					alert('用户注册成功，请登录！');
-					REGISTER.login();
-				} else {
-					alert("注册失败！");
-				}
-			});
-		},
-		login:function() {
-			 location.href = "/page/login";
-			 return false;
-		},
-		reg:function() {
-			if (this.inputcheck()) {
-				this.beforeSubmit();
-			}
-		}
-	};
-</script>
+    <script type="text/javascript">
+        var pattern =/(?=.*[u4E00-\u9FA5a-zA-Z])(?=.*[u4E00-\u9FA50-9])[u4E00-\u9FA5a-zA-Z0-9]{5,20}/;
+        var REGISTER = {
+
+            // param:{
+            // 	//单点登录系统的url
+            // 	surl:""
+            // },
+            inputcheck: function () {
+                //不能为空检查
+                // if ($("#regName").val() == "")
+               if(!pattern.test("#regName")) {
+                    alert("用户名应该为5-20长度的字母、数字和汉字的组合");
+                    $("#regName").focus();
+                    return false;
+                }
+                if ($("#pwd").val() == "") {
+                    alert("密码不能为空");
+                    $("#pwd").focus();
+                    return false;
+                }
+                if ($("#phone").val() == "") {
+                    alert("手机号不能为空");
+                    $("#phone").focus();
+                    return false;
+                }
+                //密码检查
+                if ($("#pwd").val() != $("#pwdRepeat").val()) {
+                    alert("确认密码和密码不一致，请重新输入！");
+                    $("#pwdRepeat").select();
+                    $("#pwdRepeat").focus();
+                    return false;
+                }
+                return true;
+            },
+            beforeSubmit: function () {
+                //检查用户是否已经被占用
+                // $.ajax({
+                // 	url : REGISTER.param.surl + "/user/check/"+escape($("#regName").val())+"/1?r=" + Math.random(),
+                // 	success : function(data) {
+                // 		if (data.data) {
+                // 			//检查手机号是否存在
+                // 			$.ajax({
+                // 				url : REGISTER.param.surl + "/user/check/"+$("#phone").val()+"/2?r=" + Math.random(),
+                //             	success : function(data) {
+                //             		if (data.data) {
+                // 	            		REGISTER.doSubmit();
+                //             		} else {
+                //             			alert("此手机号已经被注册！");
+                //             			$("#phone").select();
+                //             		}
+                //             	}
+                // 			});
+                // 		} else {
+                // 			alert("此用户名已经被占用，请选择其他用户名");
+                // 			$("#regName").select();
+                // 		}
+                // 	}
+                // });
+                var url = "http://localhost:8777/user/check";
+                var username = $("#regName").val();
+                var password = $("#pwd").val();
+                var phone = $("#phone").val();
+                var data = {
+                    username: username,
+                    password: password,
+                    phone: phone
+                };
+
+                $.post(url, data, function (resp) {
+                    if (resp.status) {
+                        REGISTER.doSubmit();
+                    } else {
+                        alert(resp.message)
+                    }
+                })
+
+            },
+            doSubmit: function () {
+
+
+                $.post("http://localhost:8777/user/register", $("#personRegForm").serialize(), function (resp) {
+                    if (resp.status) {
+                        alert('用户注册成功，请登录！');
+                        REGISTER.login();
+                    } else {
+                        alert("注册失败, " + resp.message);
+                    }
+                });
+            },
+            login: function () {
+                location.href = "http://localhost:8787/login.html";
+                return false;
+            },
+            reg: function () {
+                if (this.inputcheck()) {
+                    this.beforeSubmit();
+                }
+            }
+        };
+    </script>
 </div>
 </body>
 </html>

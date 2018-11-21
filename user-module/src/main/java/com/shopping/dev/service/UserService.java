@@ -2,20 +2,20 @@ package com.shopping.dev.service;
 
 import com.shopping.dev.entity.User;
 import com.shopping.dev.utils.ResultWrapper;
-import org.springframework.stereotype.Service;
 
 /**
  * @author:毕胜朋
- * @date:2018/11/8 8:46
+ * @date:2018/11/12 11:30
  */
-@Service
-public interface RegisterService {
+public interface UserService {
+    User findByUsername(User User);
+
     /**
-     * 根据用户名查询数据库
-     * @param username
+     * 根据user对象的phone 查询user对象
+     * @param user
      * @return
      */
-    ResultWrapper findUserByUsername(String username);
+    User findUserByPhone(User user);
 
     /**
      * 像数据库插入数据
@@ -23,4 +23,11 @@ public interface RegisterService {
      * @return
      */
     User addAll(User user);
+
+    /**
+     * 退出登录
+     * @return
+     */
+  ResultWrapper exit();
+
 }

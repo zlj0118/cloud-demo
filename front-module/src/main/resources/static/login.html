@@ -77,12 +77,24 @@
             return true;
         },
         doLogin: function () {
-            $.post("http://localhost:8769/login/login", $("#formlogin").serialize(), function (data) {
+            $.post("http://localhost:8777/user/login", $("#formlogin").serialize(), function (data) {
                 console.log(data.code)
                 if (data.code == 200) {
                     alert("登录成功！");
-                    if (redirectUrl == "")
-                        window.location.href="http://localhost:8787/index.html";
+                    if (redirectUrl == "") {
+                        console.log("data"+data);
+                        var  token =data.data.token;
+                        var  username =data.data.User.username;
+                        console.log(username);
+                        console.log('login token:' + token);
+                        // 存token 带到 index.html页面
+                        window.localStorage.setItem('token', token);
+                        window.localStorage.setItem('username',username);
+                        console.log('get: ' + window.localStorage.getItem('token'))
+                        // 不能写纯路径
+                        window.location.href="index.html";
+                    }
+
                 } else {
                     alert("登录失败，原因是：" + data.message);
                     $("#loginname").select();
