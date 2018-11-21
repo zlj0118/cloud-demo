@@ -66,26 +66,13 @@ public class JwtUtils {
     public static String refreshToken(String token) {
         // 解码头和负载
         DecodedJWT jwt = JWT.decode(token);
-    Long userId = jwt.getClaim("userId").asLong();
+        Long userId = jwt.getClaim("userId").asLong();
         return newToken(userId);
-//        // 获取负载
-//        String payload = jwt.getPayload();
-//        byte[] bytes = Base64.getDecoder().decode(payload);
-//        String json = bytes.toString();
-//        System.out.println(json);
-//        // 返回新的token
-//        ObjectMapper mapper = new ObjectMapper();
-//        try {
-//            Payload pl = mapper.readValue(json, Payload.class);
-//            Long userId = pl.getUserId();
-//            return newToken(userId);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     /**
      * 校验token是否合法, 合法后持续时间过没过百分之80
+     *
      * @param token
      * @return
      */
@@ -107,8 +94,8 @@ public class JwtUtils {
             throw new JWTVerificationException("token不合法");
         }
     }
-    public static  Integer getUserId(String jwtToken){
-        System.out.println("jetToken"+jwtToken);
+
+    public static Integer getUserId(String jwtToken) {
         return JWT.decode(jwtToken).getClaim("userId").asInt();
     }
 

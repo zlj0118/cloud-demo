@@ -37,6 +37,7 @@ public class SimpleRealm extends AuthorizingRealm {
      * 如果把该realm设置给securityManager, 那么使用shiro登录时候
      * 登录的逻辑就在该realm里。
      * 所以需要判断， 该realm是否可以处理login时传递的token
+     *
      * @param token
      * @return
      */
@@ -54,7 +55,6 @@ public class SimpleRealm extends AuthorizingRealm {
 
         // 因为认证的时候存储的是userInfo对象,所以这里取出来
         // 也是userInfo对象
-//      SecurityUtils.getSubject().getPrincipal();
         // 获取登录成功时存储的主要信息
         Object principal = principals.getPrimaryPrincipal();
         // 实际上是token

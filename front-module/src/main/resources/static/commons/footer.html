@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
 </head>
 <body>
 <div class="w" clstag="homepage|keycount|home2013|37a">
@@ -92,12 +92,12 @@
     var B = ["java", "apple", "LG G3", "天梭", "保温杯", "三个爸爸"];
     B = pageConfig.FN_GetRandomData(B);
     $("#hotwords").html(A);
-    var _searchValue = "${query}";
-    if (_searchValue.length == 0) {
+    var _searchValue = "";
+    if (_searchValue.length === 0) {
         _searchValue = B;
     }
     $("#key").val(_searchValue).bind("focus", function () {
-        if (this.value == B) {
+        if (this.value === B) {
             this.value = "";
             this.style.color = "#333"
         }
