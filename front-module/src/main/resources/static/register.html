@@ -110,13 +110,8 @@
         var pattern =/(?=.*[u4E00-\u9FA5a-zA-Z])(?=.*[u4E00-\u9FA50-9])[u4E00-\u9FA5a-zA-Z0-9]{5,20}/;
         var REGISTER = {
 
-            // param:{
-            // 	//单点登录系统的url
-            // 	surl:""
-            // },
+
             inputcheck: function () {
-                //不能为空检查
-                // if ($("#regName").val() == "")
                if(!pattern.test("#regName")) {
                     alert("用户名应该为5-20长度的字母、数字和汉字的组合");
                     $("#regName").focus();
@@ -142,29 +137,6 @@
                 return true;
             },
             beforeSubmit: function () {
-                //检查用户是否已经被占用
-                // $.ajax({
-                // 	url : REGISTER.param.surl + "/user/check/"+escape($("#regName").val())+"/1?r=" + Math.random(),
-                // 	success : function(data) {
-                // 		if (data.data) {
-                // 			//检查手机号是否存在
-                // 			$.ajax({
-                // 				url : REGISTER.param.surl + "/user/check/"+$("#phone").val()+"/2?r=" + Math.random(),
-                //             	success : function(data) {
-                //             		if (data.data) {
-                // 	            		REGISTER.doSubmit();
-                //             		} else {
-                //             			alert("此手机号已经被注册！");
-                //             			$("#phone").select();
-                //             		}
-                //             	}
-                // 			});
-                // 		} else {
-                // 			alert("此用户名已经被占用，请选择其他用户名");
-                // 			$("#regName").select();
-                // 		}
-                // 	}
-                // });
                 var url = "http://localhost:8777/user/check";
                 var username = $("#regName").val();
                 var password = $("#pwd").val();

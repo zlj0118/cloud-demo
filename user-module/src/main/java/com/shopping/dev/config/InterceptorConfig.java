@@ -13,7 +13,7 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
     @Override
     // 配置添加 拦截器
     protected void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new TokenInterceptor()).addPathPatterns("/**").excludePathPatterns("/user/login").excludePathPatterns("/user/register");
+        registry.addInterceptor(new TokenInterceptor()).addPathPatterns("/**").excludePathPatterns("/user/login").excludePathPatterns("/user/register").excludePathPatterns("/user/check");
         super.addInterceptors(registry);
     }
 }
