@@ -16,5 +16,6 @@ include ':config-module',
         ':front-module',
         ':commons-module',
         ':admin-module',
+        ':order-module',
         ':user-module'
 

@@ -1,4 +1,4 @@
-package com.shopping.dev.controller;
+package com.shopping.dev.order.controller;
 
 import com.shopping.dev.entity.User;
 
