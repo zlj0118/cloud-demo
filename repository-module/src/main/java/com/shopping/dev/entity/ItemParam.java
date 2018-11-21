@@ -19,11 +19,12 @@ public class ItemParam {
   public ItemParam() {
   }
 
-  public ItemParam(Long itemCatId, String paramData, Timestamp created, Timestamp updated) {
+  public ItemParam(Long itemCatId, String paramData, Timestamp created, Timestamp updated, int status) {
     this.itemCatId = itemCatId;
     this.paramData = paramData;
     this.created = created;
     this.updated = updated;
+    this.status = status;
   }
 
   @Override

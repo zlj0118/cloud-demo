@@ -31,7 +31,6 @@ var TT = SHOP = {
 	},
 	// 格式化时间
 	formatDateTime : function(val,row){
-		console.log(val);
 		if (val !== undefined) {
             var now = new Date(val);
             return now.format("yyyy-MM-dd hh:mm:ss");

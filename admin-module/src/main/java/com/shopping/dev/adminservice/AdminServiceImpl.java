@@ -69,7 +69,7 @@ public class AdminServiceImpl implements AdminService {
     // 插入数据
     @Override
     public boolean addItemParam(long item_cat_id, String paramData) {
-        ItemParam itemParam = new ItemParam(item_cat_id, paramData, GetTime.now(), null);
+        ItemParam itemParam = new ItemParam(item_cat_id, paramData, GetTime.now(), null, 1);
         ItemParam param = adminItemParamRepository.saveAndFlush(itemParam);
         return (param.getParamData() != null && param.getItemCatId() != null);
     }

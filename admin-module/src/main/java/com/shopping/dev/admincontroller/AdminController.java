@@ -4,6 +4,7 @@ import com.shopping.dev.admincontroller.addparams.addTotalParams;
 import com.shopping.dev.adminservice.AdminService;
 import com.shopping.dev.entity.*;
 import com.shopping.dev.resultwrapper.MyResultWrapper;
+import com.shopping.dev.utils.CheckJson;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -62,8 +63,15 @@ public class AdminController {
     public MyResultWrapper addItemParam(
             @PathVariable(name = "id") long item_cat_id,
             @RequestParam String paramData) {
-        if (adminService.addItemParam(item_cat_id, paramData)) return MyResultWrapper.success();
-        else return MyResultWrapper.error();
+        if (CheckJson.checkJsonByGson(paramData)){
+            if (adminService.addItemParam(item_cat_id, paramData)) {
+                return MyResultWrapper.success();
+            } else {
+                return MyResultWrapper.error();
+            }
+        } else {
+            return MyResultWrapper.error();
+        }
     }
 
     // 删除
