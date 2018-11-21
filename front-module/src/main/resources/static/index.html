@@ -116,7 +116,7 @@
                         doc.write(TPL);
                     }
                 })(pageConfig, document);
-                ;</script>
+            </script>
         </div><!--slide end-->
         <div class="jscroll" id="mscroll">
             <div class="ctrl" id="mscroll-ctrl-prev"><b></b></div>
@@ -503,6 +503,7 @@
 
 <!-- 绑定显示数据到页面 -->
 <script type="text/javascript">
+    console.log('index token: ' + window.localStorage.getItem('token'));
     pageConfig.DATA_Tabs = {
         "1615": {
             "1": {
@@ -3002,6 +3003,33 @@
         }
     }</script>
 <script type="text/javascript">
+    $(function () {
+
+        $('#logout').click(function () {
+            var url = "http://localhost:8777/user/logout"
+            // 清楚本地缓存的token
+            var data = window.localStorage.getItem('token');
+            console.log(data);
+            $.ajax({
+                url: "http://localhost:8777/user/logout",
+                type: 'post',
+                dataType: 'json',
+                data: {},
+                headers: {
+                    "Authentication": data
+                },
+
+                success: function (res) {
+                    window.localStorage.removeItem('token');
+                    console.log(res.code);
+                    console.log("退出" + res.data);
+                    alert(res.data)
+                    window.localStorage.removeItem('token');
+                    window.location.href = "index.html"
+                }
+            })
+        })
+    })
     pageConfig.DATA_FSlide = {};
     pageConfig.DATA_FSlide.F8 = [{
         width: 473,
@@ -3036,5 +3064,9 @@
 </div>
 <!-- footer end -->
 <script type="text/javascript" src="js/home.js" charset="utf-8"></script>
+<script type="text/javascript" src="/static/js/base-2011.js" charset="utf-8"></script>
+<script type="text/javascript" src="/static/js/base-v1.js" charset="utf-8"></script>
+<script type="text/javascript" src="/static/js/lib-v1.js" charset="utf-8"></script>
+<script type="text/javascript" src="/static/js/shop.js" charset="utf-8"></script>
 </body>
 </html>

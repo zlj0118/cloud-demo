@@ -4,6 +4,7 @@ import com.shopping.dev.admincontroller.addparams.addTotalParams;
 import com.shopping.dev.adminservice.AdminService;
 import com.shopping.dev.entity.*;
 import com.shopping.dev.resultwrapper.MyResultWrapper;
+import com.shopping.dev.utils.CheckJson;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,7 +50,8 @@ public class AdminController {
         return adminService.findAllItemParam(page, rows);
     }
 
-    // 新增.查看该id是否已在表中
+    // 新增
+    // 查看该id是否已在表中
     @GetMapping("item/param/query/itemcatid/{id}")
     public MyResultWrapper findItemParamById(@PathVariable long id) {
         if (adminService.findItemParamById(id)) return MyResultWrapper.success("exits");
@@ -61,8 +63,15 @@ public class AdminController {
     public MyResultWrapper addItemParam(
             @PathVariable(name = "id") long item_cat_id,
             @RequestParam String paramData) {
-        if (adminService.addItemParam(item_cat_id, paramData)) return MyResultWrapper.success();
-        else return MyResultWrapper.error();
+        if (CheckJson.checkJsonByGson(paramData)){
+            if (adminService.addItemParam(item_cat_id, paramData)) {
+                return MyResultWrapper.success();
+            } else {
+                return MyResultWrapper.error();
+            }
+        } else {
+            return MyResultWrapper.error();
+        }
     }
 
     // 删除
@@ -83,15 +92,17 @@ public class AdminController {
     // 新增
     @PostMapping("/content/category/create")
     public MyResultWrapper createOneOfCategory(long parentId, String name) {
-        ContentCategory category = adminService.createOneOfCategory(parentId, name);
-        if (category == null) return MyResultWrapper.error();
-        else return MyResultWrapper.success(category);
+        boolean result = adminService.createOneOfCategory(parentId, name);
+        if (result) return MyResultWrapper.success();
+        else return MyResultWrapper.error();
     }
 
     // 更改
     @PostMapping("content/category/update")
     public MyResultWrapper updateNameByCategoryId(String name, long id) {
-        return MyResultWrapper.success(adminService.updateNameByCategoryId(name, id));
+        boolean result = adminService.updateNameByCategoryId(name, id);
+        if (result) return MyResultWrapper.success();
+        else return MyResultWrapper.error();
     }
 
     //删除
@@ -116,6 +127,14 @@ public class AdminController {
     @PostMapping("content/delete")
     public MyResultWrapper deleteContentByIds(@RequestParam List<Long> ids) {
         if (adminService.deleteContentByIds(ids)) return MyResultWrapper.success();
+        else return MyResultWrapper.error();
+    }
+
+    // 修改||新增
+    @PostMapping("rest/content/edit")
+    public MyResultWrapper updateContentById ( Content content) {
+        boolean result = this.adminService.updateOrCreateContentById(content);
+        if (result) return MyResultWrapper.success();
         else return MyResultWrapper.error();
     }
 }
