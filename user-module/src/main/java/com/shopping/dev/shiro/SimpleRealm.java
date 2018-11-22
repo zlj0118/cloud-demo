@@ -81,7 +81,7 @@ public class SimpleRealm extends AuthorizingRealm {
 
         if (user1 != null) {
 
-            String jwtToken = JwtUtils.newToken(user.getId());
+            String jwtToken = JwtUtils.newToken(user1.getId());
             // 说明从数据库中能查到用户信息
             // 为了方便之后的调用, 主要信息存的是该用户的详情
             // 认证信息 配置
