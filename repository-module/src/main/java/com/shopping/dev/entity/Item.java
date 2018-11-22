@@ -1,12 +1,16 @@
 package com.shopping.dev.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 import org.apache.solr.client.solrj.beans.Field;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_item")
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Item {
 
@@ -30,9 +34,29 @@ public class Item {
     private Long cid;
     @Field("status")
     private Long status;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private java.sql.Timestamp created;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private java.sql.Timestamp updated;
 
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", sellPoint='" + sellPoint + '\'' +
+                ", price=" + price +
+                ", num=" + num +
+                ", barcode='" + barcode + '\'' +
+                ", image='" + image + '\'' +
+                ", cid=" + cid +
+                ", status=" + status +
+                ", created=" + created +
+                ", updated=" + updated +
+                '}';
+    }
 
     public Long getId() {
         return id;

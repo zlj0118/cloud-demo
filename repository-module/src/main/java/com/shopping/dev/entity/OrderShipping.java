@@ -1,117 +1,149 @@
 package com.shopping.dev.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
-public class OrderShipping {
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
-  private String orderId;
-  private String receiverName;
-  private String receiverPhone;
-  private String receiverMobile;
-  private String receiverState;
-  private String receiverCity;
-  private String receiverDistrict;
-  private String receiverAddress;
-  private String receiverZip;
-  private java.sql.Timestamp created;
-  private java.sql.Timestamp updated;
+@Entity
+@Table(name = "tb_order_shipping")
+@Data
+public class OrderShipping implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String orderId;
+    private String receiverName;
+    private String receiverPhone;
+    private String receiverMobile;
+    private String receiverState;
+    private String receiverCity;
+    private String receiverDistrict;
+    private String receiverAddress;
+    private String receiverZip;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private java.sql.Timestamp created;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private java.sql.Timestamp updated;
 
-  public String getOrderId() {
-    return orderId;
-  }
+    @Override
+    public String toString() {
+        return "OrderShipping{" +
+                "orderId='" + orderId + '\'' +
+                ", receiverName='" + receiverName + '\'' +
+                ", receiverPhone='" + receiverPhone + '\'' +
+                ", receiverMobile='" + receiverMobile + '\'' +
+                ", receiverState='" + receiverState + '\'' +
+                ", receiverCity='" + receiverCity + '\'' +
+                ", receiverDistrict='" + receiverDistrict + '\'' +
+                ", receiverAddress='" + receiverAddress + '\'' +
+                ", receiverZip='" + receiverZip + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                '}';
+    }
 
-  public void setOrderId(String orderId) {
-    this.orderId = orderId;
-  }
+    public String getOrderId() {
+        return orderId;
+    }
 
-
-  public String getReceiverName() {
-    return receiverName;
-  }
-
-  public void setReceiverName(String receiverName) {
-    this.receiverName = receiverName;
-  }
-
-
-  public String getReceiverPhone() {
-    return receiverPhone;
-  }
-
-  public void setReceiverPhone(String receiverPhone) {
-    this.receiverPhone = receiverPhone;
-  }
-
-
-  public String getReceiverMobile() {
-    return receiverMobile;
-  }
-
-  public void setReceiverMobile(String receiverMobile) {
-    this.receiverMobile = receiverMobile;
-  }
-
-
-  public String getReceiverState() {
-    return receiverState;
-  }
-
-  public void setReceiverState(String receiverState) {
-    this.receiverState = receiverState;
-  }
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
 
-  public String getReceiverCity() {
-    return receiverCity;
-  }
+    public String getReceiverName() {
+        return receiverName;
+    }
 
-  public void setReceiverCity(String receiverCity) {
-    this.receiverCity = receiverCity;
-  }
-
-
-  public String getReceiverDistrict() {
-    return receiverDistrict;
-  }
-
-  public void setReceiverDistrict(String receiverDistrict) {
-    this.receiverDistrict = receiverDistrict;
-  }
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
 
 
-  public String getReceiverAddress() {
-    return receiverAddress;
-  }
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
 
-  public void setReceiverAddress(String receiverAddress) {
-    this.receiverAddress = receiverAddress;
-  }
-
-
-  public String getReceiverZip() {
-    return receiverZip;
-  }
-
-  public void setReceiverZip(String receiverZip) {
-    this.receiverZip = receiverZip;
-  }
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
+    }
 
 
-  public java.sql.Timestamp getCreated() {
-    return created;
-  }
+    public String getReceiverMobile() {
+        return receiverMobile;
+    }
 
-  public void setCreated(java.sql.Timestamp created) {
-    this.created = created;
-  }
+    public void setReceiverMobile(String receiverMobile) {
+        this.receiverMobile = receiverMobile;
+    }
 
 
-  public java.sql.Timestamp getUpdated() {
-    return updated;
-  }
+    public String getReceiverState() {
+        return receiverState;
+    }
 
-  public void setUpdated(java.sql.Timestamp updated) {
-    this.updated = updated;
-  }
+    public void setReceiverState(String receiverState) {
+        this.receiverState = receiverState;
+    }
+
+
+    public String getReceiverCity() {
+        return receiverCity;
+    }
+
+    public void setReceiverCity(String receiverCity) {
+        this.receiverCity = receiverCity;
+    }
+
+
+    public String getReceiverDistrict() {
+        return receiverDistrict;
+    }
+
+    public void setReceiverDistrict(String receiverDistrict) {
+        this.receiverDistrict = receiverDistrict;
+    }
+
+
+    public String getReceiverAddress() {
+        return receiverAddress;
+    }
+
+    public void setReceiverAddress(String receiverAddress) {
+        this.receiverAddress = receiverAddress;
+    }
+
+
+    public String getReceiverZip() {
+        return receiverZip;
+    }
+
+    public void setReceiverZip(String receiverZip) {
+        this.receiverZip = receiverZip;
+    }
+
+
+    public java.sql.Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(java.sql.Timestamp created) {
+        this.created = created;
+    }
+
+
+    public java.sql.Timestamp getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(java.sql.Timestamp updated) {
+        this.updated = updated;
+    }
 
 }
