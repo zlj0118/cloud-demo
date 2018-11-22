@@ -16,10 +16,6 @@ import javax.servlet.http.HttpServletResponse;
  * @date:2018/11/1 15:45
  */
 public class TokenInterceptor implements HandlerInterceptor {
-    @Resource
-    private RedisTemplate redisTemplate;
-
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 

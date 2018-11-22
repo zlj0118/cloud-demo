@@ -97,8 +97,12 @@ public class UserController {
         Map<String, Object> map = new HashMap<>();
         map.put("token", jwtToken);
         map.put("User", user);
+        User user1 = this.service.findByUsername(user);
+//      防止一个用户多次登录, 在Redis中一个key产生value
+        redisTemplate.delete("token:userId:" + user1.getId());
         ValueOperations opsValue = redisTemplate.opsForValue();
-        opsValue.set("token:userId:" + user.getId(), jwtToken);
+
+        opsValue.set("token:userId:" + user1.getId(), jwtToken);
         return ResultWrapper.success(map);
     }
 

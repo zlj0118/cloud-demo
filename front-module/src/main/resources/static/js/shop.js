@@ -27,7 +27,7 @@ $(function () {
     var username = window.localStorage.getItem('username', username);
     var html = "";
     if (token != null) {
-        html = username + "，欢迎来到shop！<input id='logout' type='button' value='退出'/>";
+        html = username + "，欢迎来到shop！<a id='logout' type='button'>退出</a>";
     }else {
         html = "您好！欢迎来到shop！<a href=\"javascript:login()\">[登录]</a>&nbsp;<a href=\"javascript:regist()\">[免费注册]</a>"
     }

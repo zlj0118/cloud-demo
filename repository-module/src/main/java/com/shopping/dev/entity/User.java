@@ -11,7 +11,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Pattern(regexp = "^[a-zA-Z0-9_-]{4,16}$",message ="用户名必须有4-16位,可以有字母,数字,下划线,减号" )
+    @Pattern(regexp = "^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]+$",message ="用户名必须" )
     private String username;
     @Pattern(regexp = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$",message = "密码（6-16位数字和字母的组合)")
     private String password;
