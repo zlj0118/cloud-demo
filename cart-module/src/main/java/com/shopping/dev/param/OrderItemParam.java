@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderItemParam {
-    private Integer id;
-    
+    private Integer itemId;
     private  String itemNum;
     private  String title;
     private  String image;

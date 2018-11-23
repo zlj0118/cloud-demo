@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemDel {
-//    private  int[] itemNumList;
-    private  int[] itemIdList;
+    //    private  int[] itemNumList;
+    private int[] itemIdList;
 
 }

@@ -29,6 +29,8 @@ public class RedisConfig {
         jsonRedisSerializer.setObjectMapper(mapper);
 //        template.setKeySerializer(jsonRedisSerializer);
         template.setValueSerializer(jsonRedisSerializer);
+        template.setHashKeySerializer(new StringRedisSerializer());
+        template.setHashValueSerializer( new StringRedisSerializer());
         template.afterPropertiesSet();
         return template;
 

@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 public class InterceptorConfig  implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        response.setHeader("access-Control-Allow-Origin","http://localhost:8787");
-        response.setHeader("access-Control-Allow-Methods","POST,GET");
-        response.setHeader("access-Control-Max-Age","3600");
+        response.setHeader("Access-Control-Allow-Origin","http://localhost:8787");
+        response.setHeader("Access-Control-Allow-Methods","POST,GET");
+        response.setHeader("Access-Control-Max-Age","3600");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         return true;
     }

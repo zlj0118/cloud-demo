@@ -72,8 +72,7 @@
 		                </div>    
 		            </div>
 		            <div class="cell p-price"><span class="price">¥<fmt:formatNumber groupingUsed="false" value="${cart.price / 100}" maxFractionDigits="2" minFractionDigits="2"/> </span></div>
-		            <div class="cell p-promotion">
-		            </div>
+		            <div class="cell p-promotion"></div>
 		            <div class="cell p-inventory stock-11345721">有货</div>
 		            <div class="cell p-quantity" for-stock="for-stock-11345721">
 		                <div class="quantity-form" data-bind="">

@@ -3,50 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <title>核对订单</title>
-    <meta http-equiv="pragma" content="no-cache" />
-    <meta http-equiv="cache-control" content="no-cache" />
-    <meta http-equiv="expires" content="0" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="expires" content="0"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>订单结算页 -shop商城</title>
     <!--结算页面样式-->
-    <link rel="stylesheet" type="text/css" href="/css/base.css" media="all" />
-    <link type="text/css" rel="stylesheet"  href="/css/order-commons.css" source="widget"/>
+    <link rel="stylesheet" type="text/css" href="/css/base.css" media="all"/>
+    <link type="text/css" rel="stylesheet" href="/css/order-commons.css" source="widget"/>
     <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
     <script type="text/javascript" src="/js/jquery-1.6.4.js"></script>
     <script type="text/javascript" src="/js/base.js"></script>
     <script type="text/javascript" src="/js/order.common.js"></script>
     <script type="text/javascript" src="/js/jquery.checkout.js"></script>
-</head>	<body id="mainframe">
+</head>
+<body id="mainframe">
 <div id="shortcut">
-    <script>$("#shortcut").load("commons/shortcut.html");</script>
+    <script>$("#shortcut").load("/commons/shortcut.html");</script>
 </div>
 <!--shortcut end-->
 
+<script>
+
+    let formData = {};
+
+    $(function () {
+
+        let itemIdList = window.localStorage.getItem("itemIdList");
+        let totalPrice = window.localStorage.getItem("totalPrice");
+        $.get("http://localhost:8770/cart/commitOrder?itemIdList=" + itemIdList.toString(), function (resp, success) {
+            //  console.log("响应回来了");
+            // console.log(resp);
+            var goodsSuit = $('#goodsSuit');
+            var hide = $('.hide');
+            goodsSuit.empty();
+            formData.orderItemParamList = [];
+            for (let i of  resp.data) {
+
+                let orderItemParam = {};
+                orderItemParam.itemId = i.item.id;
+                orderItemParam.itemNum = i.itemNum;
+                orderItemParam.title=i.item.title;
+                orderItemParam.image=i.item.image;
+                orderItemParam.price=i.item.price;
+                formData.orderItemParamList.push(orderItemParam);
+                formData.paymentType=1;
+                formData.receiverName='杜磊肆';
+                formData.receiverMobile='17640234824';
+                formData.receiverAddress="辽宁省铁岭市象牙山龙泉山庄";
+
+                let goodsItem = $('<div class="goods-item goods-item-extra"></div>');
+                let pImag = $(' <div class="p-img"></div>');
+                let a1 = $('  <a target="_blank" class="qwe"></a> ');
+                // a1.attr("href","#");
+                a1.attr("itemId", i.item.id);
+                let imag1 = $('<img/>');
+                imag1.attr("src", i.item.image);
+                imag1.attr("alt", "没有图");
+                a1.append(imag1);
+                pImag.append(a1);
+                var goodsMsg = $('<div class="goods-msg"></div>');
+                var pName = $(' <div class="p-name"></div>');
+                var a2 = $('<a  target="_blank" class="qwe" />');
+                a2.text(i.item.title);
+                a2.attr("itemId", i.item.id);
+                a2.attr("href", "javascript:void(0)");
+                pName.append(a2);
+                goodsMsg.append(pName);
+                var pPrice = $('<div class="p-price"></div>');
+                var font = $(' <strong>￥<font></font></strong>');
+                font.html(i.item.price / 100);
+                var span = $('<span class="ml20"></span>');
+                span.text("x" + i.itemNum);
+                var span2 = $('<span class="ml20 p-inventory" skuId="11555193"></span>');
+                span2.text("有货");
+                pPrice.append(font).append(span).append(span2);
+                var pIcon = $(' <i class="p-icon p-icon-w"></i><span class="ftx-04">7天无理由退货</span>');
+                goodsMsg.append(pPrice).append(pIcon);
+                var clr = $('<div class="clr"></div>');
+                goodsItem.append(pImag).append(goodsMsg).append(clr);
+                goodsSuit.append(goodsItem);
+
+            }
+            $('.qwe').click(function () {
+                console.log("====================]");
+                let itemId = $(this).attr("itemId");
+                window.localStorage.setItem("itemId", itemId);
+                window.location.href = "/cart/item.html";
+            });
+
+            // console.log(totalPrice);
+            $('.fontFullPrice').html(totalPrice);
+        });
+
+    });
+
+</script>
 <div class="w w1 header clearfix">
-    <div id="logo"><a href="/"><img src="../images/taotao-logo.gif" alt="shop商城"></a></div>
+    <div id="logo"><a href="/"><img src="/images/taotao-logo.gif" alt="shop商城"></a></div>
 </div>
 
-<form id="orderForm" class="hide" action="/cart/success.html" method="get">
+<form id="orderForm" class="hide" action="" method="get">
     <input type="hidden" name="paymentType" value="1"/>
-    <c:forEach items="${cartList }" var="cart" varStatus="status">
-        <c:set var="totalPrice"  value="${ totalPrice + (cart.price * cart.num)}"/>
-        <input type="hidden" name="orderItems[${status.index}].itemId" value="${cart.id}"/>
-        <input type="hidden" name="orderItems[${status.index}].num" value="${cart.num }"/>
-        <input type="hidden" name="orderItems[${status.index}].price" value="${cart.price}"/>
-        <input type="hidden" name="orderItems[${status.index}].totalFee" value="${cart.price * cart.num}"/>
-        <input type="hidden" name="orderItems[${status.index}].title" value="${cart.title}"/>
-        <input type="hidden" name="orderItems[${status.index}].picPath" value="${cart.images[0]}"/>
-    </c:forEach>
-    <input type="hidden" name="payment" value="<fmt:formatNumber groupingUsed="false" maxFractionDigits="2" minFractionDigits="2" value="${totalPrice/100 }"/>"/>
-    <input type="hidden" name="orderShipping.receiverName" value="入云龙"/>
-    <input type="hidden" name="orderShipping.receiverMobile" value="15891588888"/>
-    <input type="hidden" name="orderShipping.receiverState" value="北京"/>
-    <input type="hidden" name="orderShipping.receiverCity" value="北京"/>
-    <input type="hidden" name="orderShipping.receiverDistrict" value="昌平区"/>
-    <input type="hidden" name="orderShipping.receiverAddress" value="西三旗 xxxxxxxxx"/>
+    <!--<c:forEach items="${cartList }" var="cart" varStatus="status">-->
+    <!--<c:set var="totalPrice"  value="${ totalPrice + (cart.price * cart.num)}"/>-->
+    <!--<input type="hidden" name="orderItems[${status.index}].itemId" value="${cart.id}"/>-->
+    <!--<input type="hidden" name="orderItems[${status.index}].num" value="${cart.num }"/>-->
+    <!--<input type="hidden" name="orderItems[${status.index}].price" value="${cart.price}"/>-->
+    <!--<input type="hidden" name="orderItems[${status.index}].totalFee" value="${cart.price * cart.num}"/>-->
+    <!--<input type="hidden" name="orderItems[${status.index}].title" value="${cart.title}"/>-->
+    <!--<input type="hidden" name="orderItems[${status.index}].picPath" value="${cart.images[0]}"/>-->
+    <!--</c:forEach>-->
+    <input type="hidden" name="receiverName" value="李云龙"/>
+    <input type="hidden" name="receiverMobile" value="15891588888"/>
+    <input type="hidden" name="receiverState" value="辽宁"/>
+    <input type="hidden" name="receiverCity" value="辽宁"/>
+    <input type="hidden" name="receiverDistrict" value="辽宁区"/>
+    <input type="hidden" name="receiverAddress" value="象牙山大脚超市"/>
+    <!--<input type="submit" value="提交表单">-->
 </form>
 
 <!-- main -->
@@ -91,7 +169,8 @@
                                                 <a href="#none"
                                                    class="ftx-05 mr10 setdefault-consignee hide"
                                                    fid="137617472">设为默认地址</a> <a href="#none"
-                                                                                 class="ftx-05 mr10 edit-consignee" fid="137617472">编辑</a>
+                                                                                 class="ftx-05 mr10 edit-consignee"
+                                                                                 fid="137617472">编辑</a>
                                                 <a href="#none" class="ftx-05 del-consignee hide"
                                                    fid="137617472">删除</a>
                                             </div>
@@ -115,8 +194,8 @@
                                     <div class="list-cont">
                                         <ul id="payment-list">
                                             <input type="hidden" id="instalmentPlan" value="false">
-                                            <li style="cursor: pointer;" onclick="save_Pay(1);">
-                                                <div class="payment-item item-selected online-payment "
+                                            <li style="cursor: pointer;" onclick="save_Pay(1, this);">
+                                                <div class="payment-item online-payment "
                                                      for="pay-method-1" payname="货到付款" payid="1">
                                                     <b></b> 货到付款<span class="qmark-icon qmark-tip"
                                                                       data-tips="送货上门后再收款，支持现金、POS机刷卡、支票支付 <a href='http://help.jd.com/help/distribution-768-2-2813-2863-0-1410707152669.html' target='_blank' class='ftx-05'>查看服务及配送范围</a>"></span>
@@ -124,9 +203,8 @@
                                                     <!-- span class="qmark-icon qmark-tip" data-tips="送货上门后再收款，支持现金、POS机刷卡、支票支付 <a target='_blank' href='http://psfw.jd.com/help/distribution-768.html-2-2825-2893-0-1427094595258.html'>查看服务及配送范围</a>"></span -->
                                                 </div>
                                             </li>
-                                            <li style="cursor: pointer;" onclick="save_Pay(4);">
-
-                                                <div class="payment-item  online-payment "
+                                            <li style="cursor: pointer;" onclick="save_Pay(4, this);">
+                                                <div class="payment-item  item-selected online-payment "
                                                      for="pay-method-4" payname="在线支付" payid="4">
                                                     <b></b> 在线支付 <font class="whiteBarSpanClass hide"
                                                                        color="#FF6600">[支持打白条]</font> <span
@@ -137,7 +215,7 @@
                                                 </div>
                                             </li>
 
-                                            <li style="cursor: pointer;" onclick="save_Pay(5); ">
+                                            <li style="cursor: pointer;" onclick="save_Pay(5, this); ">
 
                                                 <div class="payment-item online-payment "
                                                      for="pay-method-5" payname="公司转账" payid="5">
@@ -147,7 +225,7 @@
                                                     <!-- span class="qmark-icon qmark-tip" data-tips="通过快钱平台转账 转帐后1-3个工作日内到帐 <a target='_blank' href='http://help.jd.com/help/question-70.html'>查看帐户信息</a>"></span -->
                                                 </div>
                                             </li>
-                                            <li style="cursor: pointer;" onclick="save_Pay(2); ">
+                                            <li style="cursor: pointer;" onclick="save_Pay(2, this); ">
 
                                                 <div class="payment-item  online-payment "
                                                      for="pay-method-2" payname="邮局汇款" payid="2">
@@ -159,9 +237,9 @@
                                             </li>
                                             <!--div id="shipment"></div-->
                                             <script>
-                                                $('.online-payment').hover(function() {
+                                                $('.online-payment').hover(function () {
                                                     $(this).addClass('payment-item-hover');
-                                                }, function() {
+                                                }, function () {
                                                     $(this).removeClass('payment-item-hover');
                                                 });
                                             </script>
@@ -170,10 +248,14 @@
                                 </div>
                             </div>
                             <!--/ /widget/payment-step/payment-step.tpl -->
+
+
+                            // 商品 清单
+
                             <div class="step-tit">
                                 <h3>送货清单</h3>
                                 <div class="extra-r">
-                                    <a href="../cart.html" id="cartRetureUrl" class="return-edit ftx-05">返回修改购物车</a>
+                                    <a href="/cart/cart.html" id="cartRetureUrl" class="return-edit ftx-05">返回修改购物车</a>
                                 </div>
                             </div>
                             <div class="step-cont" id="skuPayAndShipment-cont">
@@ -182,36 +264,10 @@
                                     <div class="shopping-list ABTest">
                                         <div class="goods-list">
                                             <!--配送方式-->
+                                            <!--遍历购买商品-->
                                             <h4 class="vendor_name_h" id="0">商家：shop商城</h4>
-                                            <div class="goods-suit goods-last">
-                                                <c:forEach items="${cartList }" var="cart">
-                                                    <div class="goods-item goods-item-extra">
+                                            <div class="goods-suit goods-last" id="goodsSuit">
 
-                                                        <div class="p-img">
-                                                            <a target="_blank" href="/item/${cart.id}.html">
-                                                                <img src="${cart.images[0]}" alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="goods-msg">
-                                                            <div class="p-name">
-                                                                <a href="/item/${cart.id}.html" target="_blank">
-                                                                    ${cart.title }
-                                                                </a>
-                                                            </div>
-                                                            <div class="p-price">
-                                                                <!--增加预售金额显示 begin   预售分阶段支付类型（1：一阶梯全款支付；2：一阶梯定金支付(全款或定金可选)；3：三阶梯仅定金支付） -->
-                                                                <strong>￥<fmt:formatNumber
-                                                                        groupingUsed="false" maxFractionDigits="2"
-                                                                        minFractionDigits="2" value="${cart.price / 100 }" /></strong>
-                                                                <!--增加预售金额显示 end-->
-                                                                <span class="ml20"> x${cart.num} </span>
-                                                                <span class="ml20 p-inventory" skuId="11555193">有货</span>
-                                                            </div>
-                                                            <i class="p-icon p-icon-w"></i><span class="ftx-04">7天无理由退货</span>
-                                                        </div>
-                                                        <div class="clr"></div>
-                                                    </div>
-                                                </c:forEach>
                                             </div>
                                         </div>
                                         <!--goods-list 结束-->
@@ -228,7 +284,8 @@
                                                             onclick="doSwithTab('pay')"><span
                                                                 id="jdShip-span-tip" class="m-txt">shop快递<i
                                                                 class='qmark-icon qmark-tip'
-                                                                data-tips='由shop公司负责配送，速度很快，还接受上门刷卡付款服务'></i></span><b></b></li>
+                                                                data-tips='由shop公司负责配送，速度很快，还接受上门刷卡付款服务'></i></span><b></b>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -253,7 +310,8 @@
                         <div id="part-inv" class="invoice-cont">
                             <span class="mr10"> 普通发票（电子） &nbsp; </span><span class="mr10">
 			个人 &nbsp; </span><span class="mr10"> &nbsp; </span> 明细 <a href="#none"
-                                                                      class="ftx-05 invoice-edit" onclick="edit_Invoice()">修改</a>
+                                                                      class="ftx-05 invoice-edit"
+                                                                      onclick="edit_Invoice()">修改</a>
                         </div>
                     </div>
                     <div class="order-summary">
@@ -263,15 +321,16 @@
 					<span>
 						总商品金额：
 					</span>
-                                <em class="price" id="warePriceId">¥<fmt:formatNumber value="${totalPrice / 100}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/></em>
+                                <em class="price" id="warePriceId">¥<font face="verdana" color="red"
+                                                                          class="fontFullPrice"></font></em>
                             </div>
                             <div class="list">
                                 <span>运费：</span> <em class="price" id="freightPriceId">
                                 ￥0.00</em>
                             </div>
                             <div class="list">
-                                <span>应付总额：</span> <em class="price" id="sumPayPriceId">
-                                ￥<fmt:formatNumber value="${totalPrice / 100}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/></em>
+                                <span>应付总额：</span> <em class="price" id="sumPayPriceId" >
+                                ￥<font face="verdana" color="red" class="fontFullPrice" ></font></em>
                             </div>
                         </div>
                         <div class="clr"></div>
@@ -286,11 +345,11 @@
                         <div class="sticky-wrap">
                             <div class="inner">
                                 <button type="submit" class="checkout-submit btn-1"
-                                        id="order-submit"
-                                        onclick="$('#orderForm').submit()">
+                                        id="order-submit">
                                     提交订单
                                 </button>
-                                <span class="total">应付总额：<strong id="payPriceId">￥<fmt:formatNumber value="${totalPrice / 100}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/></strong>
+                                <span class="total">应付总额：<strong id="payPriceId">￥<font face="verdana" color="red"
+                                                                                        class="fontFullPrice"></font></strong>
           </span>
                                 <span id="checkCodeDiv"></span>
                                 <div class="checkout-submit-tip" id="changeAreaAndPrice" style="display: none;">
@@ -300,7 +359,7 @@
                                     部分商品货到付款方式：先由shop配送“提货单”并收款，然后厂商发货。
                                 </div>
                             </div>
-                            <span id="submit_message" style="display:none" class="submit-error" ></span>
+                            <span id="submit_message" style="display:none" class="submit-error"></span>
                             <div class="submit-check-info" id="submit_check_info_message" style="display:none"></div>
                         </div>
                     </div>
@@ -311,13 +370,51 @@
     </div>
 
 </div>
-
+<script type="text/javascript" src="/js/cart/cart-list.js"></script>
 
 <div id="footer">
     <script>$("#footer").load("/commons/footer.html");</script>
 </div>
 </body>
 
+<script>
+    function save_Pay(data, e){
+        // var status = $(e).find("div").addClass("item-selected");
+        // var status = $(e).find("div").attr("class");
+        // console.log(status);
+        // if(status.indexOf("item-selected")) {
+        //     $(e).find("div").removeClass("item-selected");
+        // } else {
+        //     $(e).find("div").addClass("item-selected");
+        // }
+        // $(e).find("div").addClass("item-selected");
+        //item-selected
+        $("input[name=paymentType]").val(data);
+    }
+    $('#order-submit').click(function () {
+        // e.preventDefault();
+        // console.log($("input[name=paymentType]").val());
+        // var formData = $('form').serialize();
+        let json = JSON.stringify(formData);
+        console.log(json);
+        var setting = {
+            url: 'http://localhost:8770/cart/createOrder',
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: json
+        };
+        $.ajax(setting).done(function (resp) {
+            console.log("响应回来");
+            console.log(resp);
+            window.localStorage.setItem("orderId",resp.data.orderId);
+            window.location.href="/cart/success.html";
+        })
+
+
+    })
+</script>
 
 
 </html>

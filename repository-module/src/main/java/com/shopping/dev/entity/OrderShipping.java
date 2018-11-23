@@ -1,117 +1,36 @@
 package com.shopping.dev.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "tb_order_shipping")
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class OrderShipping {
-
-  private String orderId;
-  private String receiverName;
-  private String receiverPhone;
-  private String receiverMobile;
-  private String receiverState;
-  private String receiverCity;
-  private String receiverDistrict;
-  private String receiverAddress;
-  private String receiverZip;
-  private java.sql.Timestamp created;
-  private java.sql.Timestamp updated;
-
-
-  public String getOrderId() {
-    return orderId;
-  }
-
-  public void setOrderId(String orderId) {
-    this.orderId = orderId;
-  }
+    @Id
+    private String orderId;
+    private String receiverName;
+    private String receiverPhone;
+    private String receiverMobile;
+    private String receiverState;
+    private String receiverCity;
+    private String receiverDistrict;
+    private String receiverAddress;
+    private String receiverZip;
+    private java.sql.Timestamp created;
+    private java.sql.Timestamp updated;
 
 
-  public String getReceiverName() {
-    return receiverName;
-  }
 
-  public void setReceiverName(String receiverName) {
-    this.receiverName = receiverName;
-  }
-
-
-  public String getReceiverPhone() {
-    return receiverPhone;
-  }
-
-  public void setReceiverPhone(String receiverPhone) {
-    this.receiverPhone = receiverPhone;
-  }
-
-
-  public String getReceiverMobile() {
-    return receiverMobile;
-  }
-
-  public void setReceiverMobile(String receiverMobile) {
-    this.receiverMobile = receiverMobile;
-  }
-
-
-  public String getReceiverState() {
-    return receiverState;
-  }
-
-  public void setReceiverState(String receiverState) {
-    this.receiverState = receiverState;
-  }
-
-
-  public String getReceiverCity() {
-    return receiverCity;
-  }
-
-  public void setReceiverCity(String receiverCity) {
-    this.receiverCity = receiverCity;
-  }
-
-
-  public String getReceiverDistrict() {
-    return receiverDistrict;
-  }
-
-  public void setReceiverDistrict(String receiverDistrict) {
-    this.receiverDistrict = receiverDistrict;
-  }
-
-
-  public String getReceiverAddress() {
-    return receiverAddress;
-  }
-
-  public void setReceiverAddress(String receiverAddress) {
-    this.receiverAddress = receiverAddress;
-  }
-
-
-  public String getReceiverZip() {
-    return receiverZip;
-  }
-
-  public void setReceiverZip(String receiverZip) {
-    this.receiverZip = receiverZip;
-  }
-
-
-  public java.sql.Timestamp getCreated() {
-    return created;
-  }
-
-  public void setCreated(java.sql.Timestamp created) {
-    this.created = created;
-  }
-
-
-  public java.sql.Timestamp getUpdated() {
-    return updated;
-  }
-
-  public void setUpdated(java.sql.Timestamp updated) {
-    this.updated = updated;
-  }
 
 }
