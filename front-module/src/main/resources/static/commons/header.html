@@ -36,7 +36,7 @@
         <!--search end-->
         <div id="my360buy-2013">
             <dl>
-                <dt class="ld"><s></s><a href="login.html"
+                <dt class="ld"><s></s><a id="my"
                                          clstag="homepage|keycount|home2012|04a">我的shop</a><b></b></dt>
                 <dd>
                     <div class="loading-style1"><b></b>加载中，请稍候...</div>
@@ -187,6 +187,14 @@
         var b = "http://localhost:8787/search.html?keywords=" + encodeURIComponent(document.getElementById(a).value);
         return window.location.href = b;
     }
+
+    $(function () {
+        $('#my').click(function () {
+            // var token = window.localStorage.setItem("token", token);
+            // console.log(token);
+            window.location.href = "http://localhost:8787/my-info.html";
+        });
+    })
 </script>
 </body>
 </html>

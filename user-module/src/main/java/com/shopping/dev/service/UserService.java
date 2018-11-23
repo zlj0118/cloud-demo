@@ -12,6 +12,7 @@ public interface UserService {
 
     /**
      * 根据user对象的phone 查询user对象
+     *
      * @param user
      * @return
      */
@@ -19,6 +20,7 @@ public interface UserService {
 
     /**
      * 像数据库插入数据
+     *
      * @param user
      * @return
      */
@@ -26,8 +28,11 @@ public interface UserService {
 
     /**
      * 退出登录
+     *
      * @return
      */
-  ResultWrapper exit();
+    ResultWrapper exit();
+
+
 
 }

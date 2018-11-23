@@ -38,7 +38,8 @@ public class UserServiceImpl implements UserService {
         System.out.println(user.getUsername());
         User user1 = repository.findByUsername(user.getUsername());
         System.out.println(user1);
-        if (user1 != null && !user1.equals("") && user1.getUsername().equals(user.getUsername()) && user1.getPassword().equals(user.getPassword())) {
+        if (user1 != null && !user1.equals("") && user1.getUsername().equals(user.getUsername())
+                && user1.getPassword().equals(user.getPassword())) {
             return user1;
         }
         return null;
@@ -78,6 +79,7 @@ public class UserServiceImpl implements UserService {
         Timestamp d = new Timestamp(System.currentTimeMillis());
         user.setCreated(d);
         user.setUpdated(d);
+
         return repository.save(user);
     }
     @Override
@@ -89,4 +91,6 @@ public class UserServiceImpl implements UserService {
         redisTemplate.expire("token:userId:" + userId, 0, TimeUnit.MILLISECONDS);
         return ResultWrapper.success("退出成功") ;
     }
+
+
 }

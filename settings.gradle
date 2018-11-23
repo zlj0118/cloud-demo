@@ -17,5 +17,6 @@ include ':config-module',
         ':commons-module',
         ':admin-module',
         ':order-module',
-        ':user-module'
+        ':user-module',
+        ':usermessage-module'
 
