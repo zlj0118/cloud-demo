@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script type="text/javascript" src="../js/base-v1.js" charset="utf-8"></script>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="js/base-v1.js" charset="utf-8"></script>
+
+    <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
+
 </head>
 <body>
 <!--shortcut start-->
 <div id="shortcut">
-<script>$("#shortcut").load("/commons/shortcut.html");</script>
+    <script>$("#shortcut").load("commons/shortcut.html");</script>
 </div>
 <!--shortcut end-->
 <div id="o-header-2013">
@@ -23,8 +25,9 @@
                 </ul>
                 <div class="form">
                     <input type="text" class="text" accesskey="s" id="key" autocomplete="off"
-                           onkeydown="javascript:if(event.keyCode==13) search('key');">
-                    <input type="button" value="搜索" class="button" onclick="search('key');return false;"
+                           onkeydown="javascript:if(event.keyCode==13) mySearch('key');">
+                    <input type="button" value="搜索" class="button" onclick="mySearch
+                    ('key');return false;"
                            clstag="homepage|keycount|home2013|03a">
                 </div>
             </div>
@@ -33,7 +36,7 @@
         <!--search end-->
         <div id="my360buy-2013">
             <dl>
-                <dt class="ld"><s></s><a href="http://localhost:8084/user/showLogin"
+                <dt class="ld"><s></s><a id="my"
                                          clstag="homepage|keycount|home2012|04a">我的shop</a><b></b></dt>
                 <dd>
                     <div class="loading-style1"><b></b>加载中，请稍候...</div>
@@ -180,6 +183,19 @@
             if (object) object.className += " curr";
         }
     })();
+
+    function mySearch(a) {
+        var b = "http://localhost:8787/search.html?keywords=" + encodeURIComponent(document.getElementById(a).value);
+        return window.location.href = b;
+    }
+
+    $(function () {
+        $('#my').click(function () {
+            // var token = window.localStorage.setItem("token", token);
+            // console.log(token);
+            window.location.href = "http://localhost:8787/my-info.html";
+        });
+    })
 </script>
 </body>
 </html>

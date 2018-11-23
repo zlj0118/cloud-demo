@@ -1,8 +1,14 @@
 package com.shopping.dev.entity;
 
+import javax.persistence.*;
+import java.sql.Timestamp;
 
+@Entity
+@Table(name = "tb_contentCategory")
 public class ContentCategory {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private Long parentId;
   private String name;
@@ -12,6 +18,32 @@ public class ContentCategory {
   private java.sql.Timestamp created;
   private java.sql.Timestamp updated;
 
+  public ContentCategory() {
+  }
+
+  public ContentCategory(Long parentId, String name, Long status, Long sortOrder, Long isParent, Timestamp created, Timestamp updated) {
+    this.parentId = parentId;
+    this.name = name;
+    this.status = status;
+    this.sortOrder = sortOrder;
+    this.isParent = isParent;
+    this.created = created;
+    this.updated = updated;
+  }
+
+  @Override
+  public String toString() {
+    return "ContentCategory{" +
+            "id=" + id +
+            ", parentId=" + parentId +
+            ", name='" + name + '\'' +
+            ", status=" + status +
+            ", sortOrder=" + sortOrder +
+            ", isParent=" + isParent +
+            ", created=" + created +
+            ", updated=" + updated +
+            '}';
+  }
 
   public Long getId() {
     return id;

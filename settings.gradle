@@ -10,7 +10,13 @@
 rootProject.name = 'ShoppingStore'
 include ':config-module',
         ':eureka-server',
-        ':user-module',
         ':repository-module',
         ':web-module',
-        ':front-module'
+        ':search-module',
+        ':front-module',
+        ':commons-module',
+        ':admin-module',
+        ':order-module',
+        ':user-module',
+        ':usermessage-module'
+
