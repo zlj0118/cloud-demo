@@ -5,8 +5,6 @@ import com.shopping.dev.entity.*;
 import com.shopping.dev.repository.*;
 import com.shopping.dev.resultwrapper.MyResultWrapper;
 import com.shopping.dev.utils.GetTime;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +42,13 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<ItemCartForEasyUiTree> findAllItemCat(int id) {
         return adminItemCatRepository.findItemCatByParentId(id);
+    }
+
+    // 上架|下架|删除;根据参数修改商品状态
+    @Transactional
+    @Override
+    public int changeStatusByIds(int status ,List<Long> ids) {
+        return adminItemRepository.changeStatusByIds(status, ids);
     }
 
     //-----------------------------规格参数-----------------------------------------

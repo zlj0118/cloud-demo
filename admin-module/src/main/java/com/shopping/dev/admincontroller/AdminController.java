@@ -6,21 +6,14 @@ import com.shopping.dev.adminservice.AdminService;
 import com.shopping.dev.entity.*;
 import com.shopping.dev.resultwrapper.MyResultWrapper;
 import com.shopping.dev.utils.CheckJson;
+import com.shopping.dev.utils.FileUpload;
 import com.shopping.dev.utils.PictureEdit;
-import net.coobird.thumbnailator.Thumbnailator;
-import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -30,9 +23,9 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("pic/upload")
-    public void picture(MultipartFile uploadFile) throws IOException, JpegProcessingException {
-//        PictureEdit.edit(uploadFile);
-        PictureEdit.getMessage(uploadFile);
+    public String picture(MultipartFile uploadFile){
+        byte[] edit = PictureEdit.edit(uploadFile);
+        return edit != null ? FileUpload.fileUpload(edit) : null;
     }
 
     //------------------------------查询商品-----------------------------------
@@ -50,6 +43,24 @@ public class AdminController {
         return adminService.findAllItemCat(id);
     }
 
+    // 删除
+    @PostMapping("/rest/item/delete")
+    public MyResultWrapper deleteItemById(@RequestParam List<Long> ids) {
+        int result = this.adminService.changeStatusByIds(0, ids);
+        return result > 0 ? MyResultWrapper.success() : MyResultWrapper.error();
+    }
+    // 上架
+    @PostMapping("/rest/item/reshelf")
+    public MyResultWrapper reshelfItemById(@RequestParam List<Long> ids) {
+        int result = this.adminService.changeStatusByIds(1, ids);
+        return result > 0 ? MyResultWrapper.success() : MyResultWrapper.error();
+    }
+    // 下架
+    @PostMapping("/rest/item/instock")
+    public MyResultWrapper instockItemById(@RequestParam List<Long> ids) {
+        int result = this.adminService.changeStatusByIds(2, ids);
+        return result > 0 ? MyResultWrapper.success() : MyResultWrapper.error();
+    }
 
     //-----------------------------规格参数-----------------------------------------
     // 规格参数,多表查询

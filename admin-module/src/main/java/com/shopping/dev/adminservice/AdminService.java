@@ -11,8 +11,8 @@ import java.util.List;
 public interface AdminService {
     //------------------------------查询商品-----------------------------------
     addTotalParams<Item> findAllItem(int page, int rows);
-
     List<ItemCartForEasyUiTree> findAllItemCat(int id);
+    int changeStatusByIds(int status, List<Long> ids);
 
     //-----------------------------规格参数-----------------------------------------
     addTotalParams<ItemParamAddItemCatName> findAllItemParam(int page, int rows);
