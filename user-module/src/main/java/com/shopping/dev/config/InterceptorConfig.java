@@ -1,5 +1,4 @@
 package com.shopping.dev.config;
-
 import com.shopping.dev.interceptor.TokenInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

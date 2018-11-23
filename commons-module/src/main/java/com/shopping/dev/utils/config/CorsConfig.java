@@ -1,4 +1,4 @@
-package com.shopping.dev.config;
+package com.shopping.dev.utils.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

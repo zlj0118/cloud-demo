@@ -1,8 +1,5 @@
 package com.shopping.dev.controller;
-
 import com.shopping.dev.entity.User;
-import com.shopping.dev.entity.UserMessage;
-import com.shopping.dev.repository.UserMessageRepository;
 import com.shopping.dev.service.UserService;
 import com.shopping.dev.shiro.SimpleUsernameToken;
 import com.shopping.dev.utils.ResultWrapper;
@@ -15,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
@@ -32,9 +28,6 @@ public class UserController {
 
     @Resource
     private RedisTemplate redisTemplate;
-
-    @Resource
-    private UserMessageRepository userMessageRepository;
 
     @Resource
     private UserService service;
@@ -56,12 +49,7 @@ public class UserController {
             }
             return ResultWrapper.error(405, sb.toString());
         }
-
         service.addAll(user);
-        User user1 = service.findByUsername(user);
-        UserMessage userMessage = new UserMessage();
-        userMessage.setUid(Long.valueOf(user1.getId()));
-        userMessageRepository.save(userMessage);
         return ResultWrapper.success(null);
     }
 
@@ -109,9 +97,11 @@ public class UserController {
         Map<String, Object> map = new HashMap<>();
         map.put("token", jwtToken);
         map.put("User", user);
-        User user1 = service.findByUsername(user);
+        User user1 = this.service.findByUsername(user);
+//      防止一个用户多次登录, 在Redis中一个key产生value
         redisTemplate.delete("token:userId:" + user1.getId());
         ValueOperations opsValue = redisTemplate.opsForValue();
+
         opsValue.set("token:userId:" + user1.getId(), jwtToken);
         return ResultWrapper.success(map);
     }

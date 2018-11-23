@@ -1,15 +1,25 @@
 package com.shopping.dev.admincontroller;
 
+import com.drew.imaging.jpeg.JpegProcessingException;
 import com.shopping.dev.admincontroller.addparams.addTotalParams;
 import com.shopping.dev.adminservice.AdminService;
 import com.shopping.dev.entity.*;
 import com.shopping.dev.resultwrapper.MyResultWrapper;
 import com.shopping.dev.utils.CheckJson;
+import com.shopping.dev.utils.PictureEdit;
+import net.coobird.thumbnailator.Thumbnailator;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,9 +30,9 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("pic/upload")
-    public void picture(MultipartFile uploadFile) throws IOException {
-        System.out.println(Arrays.toString(uploadFile.getBytes()));
-
+    public void picture(MultipartFile uploadFile) throws IOException, JpegProcessingException {
+//        PictureEdit.edit(uploadFile);
+        PictureEdit.getMessage(uploadFile);
     }
 
     //------------------------------查询商品-----------------------------------
