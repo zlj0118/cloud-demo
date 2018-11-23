@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: admin-module
+  cloud:
+    config:
+      uri: http://localhost:8760
+      fail-fast: true
+  profiles:
+    active: dev
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB

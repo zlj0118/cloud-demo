@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的信息 - shop</title>
+    <meta name="Keywords" content="java,shopjava"/>
+    <meta name="description" content="在shop中找到了29910件java的类似商品，其中包含了“图书”，“电子书”，“教育音像”，“骑行运动”等类型的java的商品。"/>
+    <link rel="stylesheet" type="text/css" href="../css/base.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="../css/myjd.common.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="../css/myjd.info.css" media="all"/>
+    <script type="text/javascript" src="../js/jquery-1.6.4.js"></script>
+</head>
+<body>
+<script type="text/javascript" src="../js/base-2011.js" charset="utf-8"></script>
+
+<div id="container">
+    <div class="w">
+
+        <div id="main">
+            <div class="g-0">
+                <div id="content" class="c-3-5">
+                    <div class="mod-main">
+                        <div class="mt">
+                            <ul class="extra-l">
+                                <li class="fore-1"><a href="http://localhost:8787/my-info.html">基本信息</a></li>
+                                <li class="fore-2"><a href="http://localhost:8787/my-info-img.html">头像照片</a></li>
+                                <li class="fore-3"><a href="http://localhost:8787/my-info-more.html">更多个人信息</a></li>
+
+                            </ul>
+                        </div>
+                        <form id="tf" action="http://localhost:8765/userMessage/addMessage" method="post">
+                            <div class="mc">
+                                <div class="user-set">
+                                    <div class="form">
+                                        <div class="item">
+                                            <span class="label">婚姻状况：</span>
+                                            <div class="fl">
+                                                <input type="radio" name="marriage" value="0" checked=""
+                                                       style="display:none">
+                                                <input id="marriage1" type="radio" name="marriage" class="jdradio"
+                                                       value="未婚"><label
+                                                    class="mr10">未婚</label>
+                                                <input id="marriage2" type="radio" name="marriage" class="jdradio"
+                                                       value="已婚"><label
+                                                    class="mr10">已婚</label>
+                                                <input id="marriage3" type="radio" name="marriage" class="jdradio"
+                                                       value="保密"><label
+                                                    class="mr10">保密</label>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <span class="label">月收入：</span>
+                                            <div class="fl">
+                                                <select class="selt" name="income" id="monthlyIncome">
+                                                    <option value="">请选择</option>
+                                                    <option value="2000元以下">2000元以下</option>
+                                                    <option value="2000-3999元">2000-3999元</option>
+                                                    <option value="4000-5999元">4000-5999元</option>
+                                                    <option value="6000-7999元">6000-7999元</option>
+                                                    <option value="8000元以上">8000元以上</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <span class="label">身份证号码：</span>
+                                            <div class="fl">
+                                                <div id="cidShowDiv" style="">
+                                                    <strong><input id="idCard" name="idCard" type="text"
+                                                                   value=""></strong>
+                                                    <span id="text"
+                                                          style="display: none;color: red">输入身份证错误</span>
+                                                </div>
+                                                <div id="cidInputDIv" style="display:none">
+                                                    <input id="cid" value=""
+                                                           maxlength="18" type="text" class="itxt">
+                                                    <div class="clr"></div>
+                                                    <div class="prompt-06"><span id="cid_msg"></span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <span class="label">教育程度：</span>
+                                            <div class="fl">
+                                                <select class="selt" name="teach" id="education">
+                                                    <option value="">请选择</option>
+                                                    <option value="初中">初中</option>
+                                                    <option value="高中">高中</option>
+                                                    <option value="中专">中专</option>
+                                                    <option value="大专">大专</option>
+                                                    <option value="本科">本科</option>
+                                                    <option value="硕士">硕士</option>
+                                                    <option value="博士">博士</option>
+                                                    <option value="其他">其他</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <span class="label">所在行业：</span>
+                                            <div class="fl">
+                                                <select class="selt" name="industry" id="industryInfo">
+                                                    <option value="">请选择</option>
+                                                    <option value="计算机硬件及网络设备">计算机硬件及网络设备</option>
+                                                    <option value="计算机软件">计算机软件</option>
+                                                    <option value="IT服务（系统/数据/维护）/多领域经营">IT服务（系统/数据/维护）/多领域经营</option>
+                                                    <option value="互联网/电子商务">互联网/电子商务</option>
+                                                    <option value="网络游戏">网络游戏</option>
+                                                    <option value="通讯（设备/运营/增值服务）">通讯（设备/运营/增值服务）</option>
+                                                    <option value="电子技术/半导体/集成电路">电子技术/半导体/集成电路</option>
+                                                    <option value="仪器仪表及工业自动化">仪器仪表及工业自动化</option>
+                                                    <option value="金融/银行/投资/基金/证券">金融/银行/投资/基金/证券</option>
+                                                    <option value="保险">保险</option>
+                                                    <option value="房地产/建筑/建材/工程">房地产/建筑/建材/工程</option>
+                                                    <option value="家居/室内设计/装饰装潢">家居/室内设计/装饰装潢</option>
+                                                    <option value="物业管理/商业中心">物业管理/商业中心</option>
+                                                    <option value="广告/会展/公关/市场推广">广告/会展/公关/市场推广</option>
+                                                    <option value="媒体/出版/影视/文化/艺术">媒体/出版/影视/文化/艺术</option>
+                                                    <option value="咨询/管理产业/法律/财会">咨询/管理产业/法律/财会</option>
+                                                    <option value="印刷/包装/造纸">印刷/包装/造纸</option>
+                                                    <option value="检验/检测/认证">检验/检测/认证</option>
+                                                    <option value="教育/培训">教育/培训</option>
+                                                    <option value="贸易/进出口">贸易/进出口</option>
+                                                    <option value="中介服务">中介服务</option>
+                                                    <option value="快速消费品（食品/饮料/烟酒/化妆品">快速消费品（食品/饮料/烟酒/化妆品</option>
+                                                    <option value="零售/批发">零售/批发</option>
+                                                    <option value="办公用品及设备">办公用品及设备</option>
+                                                    <option value="耐用消费品（服装服饰/纺织/皮革/家具/家电）">耐用消费品（服装服饰/纺织/皮革/家具/家电）
+                                                    </option>
+                                                    <option value="大型设备/机电设备/重工业">大型设备/机电设备/重工业</option>
+                                                    <option value="礼品/玩具/工艺美术/收藏品">礼品/玩具/工艺美术/收藏品</option>
+                                                    <option value="汽车/摩托车（制造/维护/配件/销售/服务）">汽车/摩托车（制造/维护/配件/销售/服务）
+                                                    </option>
+                                                    <option value="加工制造（原料加工/模具）">加工制造（原料加工/模具）</option>
+                                                    <option value="医药/生物工程">医药/生物工程</option>
+                                                    <option value="交通/运输/物流">交通/运输/物流</option>
+                                                    <option value="酒店/餐饮">酒店/餐饮</option>
+                                                    <option value="娱乐/体育/休闲">娱乐/体育/休闲</option>
+                                                    <option value="医疗/护理/美容/保健">医疗/护理/美容/保健</option>
+                                                    <option value="医疗设备/器械">医疗设备/器械</option>
+                                                    <option value="能源/矿产/采掘/冶炼">能源/矿产/采掘/冶炼</option>
+                                                    <option value="电气/电力/水利">电气/电力/水利</option>
+                                                    <option value="旅游/度假">旅游/度假</option>
+                                                    <option value="石油/石化/化工">石油/石化/化工</option>
+                                                    <option value="政府/公共事业/非盈利机构">政府/公共事业/非盈利机构</option>
+                                                    <option value="环保">环保</option>
+                                                    <option value="航空/航天">航空/航天</option>
+                                                    <option value="学术/科研">学术/科研</option>
+                                                    <option value="其它">其它</option>
+                                                    <option value="农/林/牧/渔">农/林/牧/渔</option>
+                                                    <option value="跨领域经营">跨领域经营</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="item">
+                                            <span class="label">&nbsp;</span>
+                                            <div class="fl">
+                                                <input id="input" type="button" value="保存">
+                                                <!--<a href="javascript:void(0)" class="btn-5"-->
+                                                <!--onclick="updateMoreUserInfo()">保存</a>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clr"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="left" class="g-3-5 c-0">
+                <!--js 加载异步加载的左侧菜单 -->
+                <div id="menu"><h3>我的交易</h3>
+                    <dl class="fore1">
+                        <dt><a target="_blank" clstag="homepage|keycount|home2013|hdd" id="_MYJD_ordercenter"
+                               href="http://order.jd.com/center/list.action" class="curr">我的订单</a></dt>
+                    </dl>
+                    <dl class="fore2">
+                        <dt><a target="_blank" clstag="homepage|keycount|home2013|hyushou" id="_MYJD_yushou"
+                               href="http://yushou.jd.com/member/qualificationList.action">我的预售</a></dt>
+                    </dl>
+                    <dl class="fore3">
+                        <dt><a target="_blank" clstag="homepage|keycount|home2013|hbdsh" id="_MYJD_locallife"
+                               href="http://life.jd.com/localOrder/iniOrder.do">我的本地生活</a></dt>
+                    </dl>
+                    <dl class="fore4">
+                        <dt><a target="_blank" clstag="homepage|keycount|home2013|hdqs" id="_MYJD_ding"
+                               href="http://ding.jd.com/plan/showPlans.action">我的定期送</a></dt>
+                    </dl>
+                    <dl class="fore5">
+                        <dt><a target="_blank" clstag="homepage|keycount|home2013|htg" id="_MYJD_tuan"
+                               href="http://tuan.jd.com/order/index.php">我的团购</a></dt>
+                    </dl>
+                    <dl class="fore6">
+                        <dt><a target="_blank" clstag="homepage|keycount|home2013|hjg" id="_MYJD_protection"
+                               href="http://jiabao.jd.com/protecting">价格保护</a></dt>
+                    </dl>
+                    <dl class="fore7">
+                        <dt class="hc"><b></b><a target="_blank" id="_MYJD_gz" href="#none">我的关注</a></dt>
+                        <dd class="fore1">
+                            <div class="item" id="_MYJD_product"><a target="_blank"
+                                                                    clstag="homepage|keycount|home2013|hgz"
+                                                                    href="http://t.jd.com/home/follow">关注的商品</a></div>
+                        </dd>
+                        <dd class="fore2">
+                            <div class="item" id="_MYJD_vender"><a target="_blank"
+                                                                   clstag="homepage|keycount|home2013|hdp"
+                                                                   href="http://t.jd.com/vender/followVenderList.action">关注的店铺</a>
+                            </div>
+                        </dd>
+                        <dd class="fore3">
+                            <div class="item" id="_MYJD_activity"><a target="_blank"
+                                                                     clstag="homepage|keycount|home2013|hhd"
+                                                                     href="http://t.jd.com/activity/followActivityList.action">关注的活动</a>
+                            </div>
+                        </dd>
+                        <dd class="fore4 last ">
+                            <div class="item" id="_MYJD_history"><a target="_blank"
+                                                                    clstag="homepage|keycount|home2013|hll"
+                                                                    href="http://my.jd.com/history/list.html">浏览历史&nbsp;<img
+                                    width="24" height="11" src="/images/myjd-new-ico.png"></a></div>
+                        </dd>
+                    </dl>
+                    <dl class="fore8">
+                        <dt class="hc"><b></b><a target="_blank" id="_MYJD_zc" href="#none">我的资产</a></dt>
+                        <dd class="fore1">
+                            <div class="item" id="_MYJD_cashbox"><a target="_blank"
+                                                                    clstag="homepage|keycount|home2013|hjk"
+                                                                    href="http://jinku.pay.jd.com/xjk/income.action">我的小金库</a>
+                            </div>
+                        </dd>
+                        <dd class="fore2">
+                            <div class="item" id="_MYJD_credit"><a clstag="homepage|keycount|home2013|hbt" tag="213"
+                                                                   href="http://baitiao.jd.com/creditUser/record">shop白条</a>&nbsp;
+                            </div>
+                        </dd>
+                        <dd class="fore3">
+                            <div class="item" id="_MYJD_tx"><a target="_blank" clstag="homepage|keycount|home2013|htx"
+                                                               href="http://mobile.jd.com/yyswt/myjd.do">shop通信</a>
+                            </div>
+                        </dd>
+                        <dd class="fore4">
+                            <div class="item" id="_MYJD_balance"><a target="_blank"
+                                                                    clstag="homepage|keycount|home2013|hye"
+                                                                    href="http://mymoney.jd.com/finance/recently.action">余额</a>
+                            </div>
+                        </dd>
+                        <dd class="fore5">
+                            <div class="item" id="_MYJD_ticket"><a target="_blank"
+                                                                   clstag="homepage|keycount|home2013|hyh"
+                                                                   href="http://quan.jd.com/user_quan.action">优惠券</a>
+                            </div>
+                        </dd>
+                        <dd class="fore6">
+                            <div class="item" id="_MYJD_card"><a target="_blank" clstag="homepage|keycount|home2013|he"
+                                                                 href="http://giftcard.jd.com/giftcard/index.action">shop卡/E卡</a>
+                            </div>
+                        </dd>
+                        <dd class="fore7 last">
+                            <div class="item" id="_MYJD_bean"><a target="_blank" clstag="homepage|keycount|home2013|hjd"
+                                                                 href="http://bean.jd.com/myJingBean/list">京豆</a></div>
+                        </dd>
+                    </dl>
+                    <dl class="fore9 last ">
+                        <dt class="hc"><b></b><a target="_blank" id="_MYJD_fw" href="#none">客户服务</a></dt>
+                        <dd class="fore1">
+                            <div class="item" id="_MYJD_repair"><a target="_blank"
+                                                                   clstag="homepage|keycount|home2013|hfx"
+                                                                   href="http://myjd.jd.com/repair/orderlist.action">返修退换货</a>
+                            </div>
+                        </dd>
+                        <dd class="fore2">
+                            <div class="item" id="_MYJD_refundment"><a target="_blank"
+                                                                       clstag="homepage|keycount|home2013|hqx"
+                                                                       href="http://rps.fm.jd.com/rest/refund/refundList">取消订单记录</a>
+                            </div>
+                        </dd>
+                        <dd class="fore3 last ">
+                            <div class="item" id="_MYJD_complaint"><a target="_blank"
+                                                                      clstag="homepage|keycount|home2013|htx"
+                                                                      href="http://myjd.jd.com/opinion/orderList.action">我的投诉</a>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+                <div id="da-game" class="da-box m"><a
+                        href="http://c.nfa.jd.com/adclick?sid=14&amp;cid=720&amp;aid=4497&amp;bid=0&amp;unit=85943&amp;advid=131939&amp;guv=&amp;url=http://wan.jd.com/yeyou/play.html?gameId=86&amp;gateWayId=s40"><img
+                        width="100%" src="/images/547e6a57N75c2f016.gif" alt=""></a></div>
+                <div id="da-home" class="da-box"><a
+                        href="http://c.nfa.jd.com/adclick?sid=2&amp;cid=102&amp;aid=413&amp;bid=8305&amp;unit=65429&amp;advid=166662&amp;guv=&amp;url=http://vivoshop.jd.com"
+                        target="_blank"><img width="100%" height="100%" alt="" app="image:poster"
+                                             src="/images/549d03d0N59b1f026.jpg"></a></div>
+            </div>
+            <span class="clr"></span>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        var token = window.localStorage.getItem("token");
+        var setting = {
+            url: 'http://localhost:8765/userMessage/findByUid',
+            headers: {
+                "Authentication": token
+            },
+            method: 'get'
+        };
+        $.ajax(setting).done(requestFinished);
+
+        function requestFinished(resp) {
+
+            if (resp.marriage == '未婚') {
+                $('#marriage1').prop('checked', 'checked')
+            } else if (resp.marriage == '已婚') {
+                $('#marriage2').prop('checked', 'checked')
+            } else if (resp.marriage == '保密') {
+                $('#marriage3').prop('checked', 'checked')
+
+            }
+            $('#monthlyIncome').val(resp.income);
+            $('#idCard').val(resp.idCard);
+            $('#education').val(resp.teach);
+            $('#industryInfo').val(resp.industry);
+        }
+    });
+
+    $('#idCard').blur(function () {
+        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        var idCard = $("#idCard").val();
+        if (!reg.test(idCard)) {
+            $('#text').css("display","inline")
+        }else {
+            $('#text').css("display","none")
+        }
+    });
+
+    $('#input').click(function () {
+
+        var token = window.localStorage.getItem("token");
+        $.ajax({
+            type: "POST",
+            contentType: "application/x-www-form-urlencoded",
+            url: "http://localhost:8765/userMessage/addMessage",
+            headers: {
+                "Authentication": token
+            },
+            data: $('#tf').serialize(),
+            success: function (result) {
+                console.log(result);
+                if (result) {
+                    alert("保存成功")
+                }
+                ;
+            },
+            error: function () {
+                alert("保存失败")
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

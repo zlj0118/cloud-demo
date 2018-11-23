@@ -398,8 +398,8 @@
         let json = JSON.stringify(formData);
         console.log(json);
         var setting = {
-            url: 'http://localhost:8770/cart/createOrder',
-            method: "POST",
+            url: 'http://localhost:8770/cart/createOrder' ,
+            type: 'post',
             headers: {
                 "Content-Type": "application/json"
             },

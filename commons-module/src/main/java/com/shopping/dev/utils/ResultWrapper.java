@@ -19,7 +19,7 @@ public class ResultWrapper {
     public  static  ResultWrapper  success(Object data){
         return  new ResultWrapper(true,200,"ok",data);
     }
-    public  static  ResultWrapper error(int code,String message){
-        return  new ResultWrapper(false,code,message,null);
+    public  static  ResultWrapper error(int code,String message) {
+        return new ResultWrapper(false, code, message, null);
     }
 }
