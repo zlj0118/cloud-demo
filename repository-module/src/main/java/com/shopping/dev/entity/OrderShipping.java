@@ -1,20 +1,25 @@
 package com.shopping.dev.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "tb_order_shipping")
-@Data
-public class OrderShipping implements Serializable {
-
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
+public class OrderShipping {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String orderId;
     private String receiverName;
     private String receiverPhone;
@@ -24,11 +29,7 @@ public class OrderShipping implements Serializable {
     private String receiverDistrict;
     private String receiverAddress;
     private String receiverZip;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private java.sql.Timestamp created;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private java.sql.Timestamp updated;
 
     @Override
@@ -55,7 +56,6 @@ public class OrderShipping implements Serializable {
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
-
 
     public String getReceiverName() {
         return receiverName;

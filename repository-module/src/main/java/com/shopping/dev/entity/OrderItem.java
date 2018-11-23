@@ -1,7 +1,10 @@
 package com.shopping.dev.entity;
 
-import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -9,14 +12,15 @@ import java.util.List;
 @Entity
 @Table(name = "tb_order_item")
 @Data
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class OrderItem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-    private String itemId;
+    private Long itemId;
     private String orderId;
-    private Long num;
+    private String num;
     private String title;
     private Long price;
     private Long totalFee;
@@ -58,11 +62,11 @@ public class OrderItem implements Serializable {
     }
 
 
-    public String getItemId() {
+    public Long getItemId() {
         return itemId;
     }
 
-    public void setItemId(String itemId) {
+    public void setItemId(Long itemId) {
         this.itemId = itemId;
     }
 
@@ -76,11 +80,11 @@ public class OrderItem implements Serializable {
     }
 
 
-    public Long getNum() {
+    public String getNum() {
         return num;
     }
 
-    public void setNum(Long num) {
+    public void setNum(String num) {
         this.num = num;
     }
 
@@ -119,5 +123,4 @@ public class OrderItem implements Serializable {
     public void setPicPath(String picPath) {
         this.picPath = picPath;
     }
-
 }

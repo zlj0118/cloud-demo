@@ -1,5 +1,7 @@
 package com.shopping.dev.controller;
 import com.shopping.dev.entity.User;
+import com.shopping.dev.entity.UserMessage;
+import com.shopping.dev.repository.UserMessageRepository;
 import com.shopping.dev.service.UserService;
 import com.shopping.dev.shiro.SimpleUsernameToken;
 import com.shopping.dev.utils.ResultWrapper;
@@ -29,6 +31,10 @@ public class UserController {
     @Resource
     private RedisTemplate redisTemplate;
 
+//    @Resource
+//    private UserMessageRepository userMessageRepository;
+
+
     @Resource
     private UserService service;
 
@@ -40,16 +46,14 @@ public class UserController {
      */
     @RequestMapping("/register")
     public ResultWrapper add(@Validated User user, BindingResult result) {
-        if (result.hasFieldErrors()) {
-            StringBuilder sb = new StringBuilder();
-            List<FieldError> errors = result.getFieldErrors();
-            for (FieldError error : errors) {
-                String errorDefaultMessage = error.getDefaultMessage();
-                sb.append(errorDefaultMessage);
-            }
-            return ResultWrapper.error(405, sb.toString());
-        }
+        ResultWrapper sb = getResultWrapper(result);
+        if (sb != null) return sb;
         service.addAll(user);
+
+//        User user1 = service.findByUsername(user);
+//        UserMessage userMessage = new UserMessage();
+//        userMessage.setUid(Long.valueOf(user1.getId()));
+//        userMessageRepository.save(userMessage);
         return ResultWrapper.success(null);
     }
 
@@ -80,15 +84,8 @@ public class UserController {
     @RequestMapping("/login")
     public ResultWrapper login(@Validated User user, BindingResult result) {
         // 判断校验是否有问题
-        if (result.hasFieldErrors()) {
-            StringBuilder sb = new StringBuilder();
-            List<FieldError> errors = result.getFieldErrors();
-            for (FieldError error : errors) {
-                String errorDefaultMessage = error.getDefaultMessage();
-                sb.append(errorDefaultMessage);
-            }
-            return ResultWrapper.error(405, sb.toString());
-        }
+        ResultWrapper sb = getResultWrapper(result);
+        if (sb != null) return sb;
         SimpleUsernameToken token = new SimpleUsernameToken(user.getUsername(), user.getPassword());
         SecurityUtils.getSubject().login(token);
 
@@ -106,9 +103,24 @@ public class UserController {
         return ResultWrapper.success(map);
     }
 
+    private ResultWrapper getResultWrapper(BindingResult result) {
+        if (result.hasFieldErrors()) {
+            StringBuilder sb = new StringBuilder();
+            List<FieldError> errors = result.getFieldErrors();
+            for (FieldError error : errors) {
+                String errorDefaultMessage = error.getDefaultMessage();
+                sb.append(errorDefaultMessage);
+            }
+            return ResultWrapper.error(405, sb.toString());
+        }
+        return null;
+    }
+
     @RequestMapping("/logout")
     public ResultWrapper logout() {
         ResultWrapper exit = service.exit();
         return exit;
     }
+
+
 }

@@ -1,135 +1,48 @@
 package com.shopping.dev.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
+import java.util.Date;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "tb_order")
-@Data
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Order implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String orderId;
-    private String payment;
-    private Long paymentType;
-    private String postFee;
-    private Long status;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    private java.sql.Timestamp createTime;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    private java.sql.Timestamp updateTime;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    private java.sql.Timestamp paymentTime;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    private java.sql.Timestamp consignTime;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    private java.sql.Timestamp endTime;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    private java.sql.Timestamp closeTime;
-    private String shippingName;
-    private String shippingCode;
-    private Long userId;
-    private String buyerMessage;
-    private String buyerNick;
-    private Long buyerRate;
-
-    @OneToMany(targetEntity = OrderItem.class)
-    @JoinColumn(name = "orderId", referencedColumnName = "orderId", insertable = false, updatable = false)
-    private List<OrderItem> orderItemList;
-    @OneToOne(targetEntity = OrderShipping.class)
-    @JoinColumn(name = "buyerNick", referencedColumnName = "receiverName", insertable = false, updatable = false)
-    private OrderShipping orderShippingList;
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "orderId='" + orderId + '\'' +
-                ", payment='" + payment + '\'' +
-                ", paymentType=" + paymentType +
-                ", postFee='" + postFee + '\'' +
-                ", status=" + status +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", paymentTime=" + paymentTime +
-                ", consignTime=" + consignTime +
-                ", endTime=" + endTime +
-                ", closeTime=" + closeTime +
-                ", shippingName='" + shippingName + '\'' +
-                ", shippingCode='" + shippingCode + '\'' +
-                ", userId=" + userId +
-                ", buyerMessage='" + buyerMessage + '\'' +
-                ", buyerNick='" + buyerNick + '\'' +
-                ", buyerRate=" + buyerRate +
-                ", orderItemList=" + orderItemList +
-                ", orderShippingList=" + orderShippingList +
-                '}';
-    }
-
-    public OrderShipping getOrderShippingList() {
-        return orderShippingList;
-    }
-
-    public void setOrderShippingList(OrderShipping orderShippingList) {
-        this.orderShippingList = orderShippingList;
-    }
-
-    public List<OrderItem> getOrderItemList() {
-        return orderItemList;
-    }
-
-    public void setOrderItemList(List<OrderItem> orderItemList) {
-        this.orderItemList = orderItemList;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
-
-    public String getPayment() {
-        return payment;
-    }
-
-    public void setPayment(String payment) {
-        this.payment = payment;
-    }
-
-
-    public Long getPaymentType() {
-        return paymentType;
-    }
-
-    public void setPaymentType(Long paymentType) {
-        this.paymentType = paymentType;
-    }
-
-
-    public String getPostFee() {
-        return postFee;
-    }
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
+public class Order {
+  @Id
+  private String orderId;
+  private String payment;
+  private Long paymentType;
+  private String postFee;
+  private Long status;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+  private java.sql.Timestamp createTime;
+  private java.sql.Timestamp updateTime;
+  private java.sql.Timestamp paymentTime;
+  private java.sql.Timestamp consignTime;
+  private java.sql.Timestamp endTime;
+  private java.sql.Timestamp closeTime;
+  private String shippingName;
+  private String shippingCode;
+  private Long userId;
+  private String buyerMessage;
+  private String buyerNick;
+  private Long buyerRate;
 
     public void setPostFee(String postFee) {
         this.postFee = postFee;
     }
-
 
     public Long getStatus() {
         return status;

@@ -502,12 +502,13 @@
             var useImage = $('#useImage');
             useImage.attr("src", resp.imagePath);
             var birthday = resp.birthday;
-
-            var arr = birthday.split('-');
-            for (var i = 0; i < arr.length; i++) {
-                $('#birthdayYear').val(arr[0]);
-                $('#birthdayMonth').val(arr[1]);
-                $('#birthdayDay').val(arr[2]);
+            if (birthday != null) {
+                var arr = birthday.split('-');
+                for (var i = 0; i < arr.length; i++) {
+                    $('#birthdayYear').val(arr[0]);
+                    $('#birthdayMonth').val(arr[1]);
+                    $('#birthdayDay').val(arr[2]);
+                }
             }
 
             if (resp.gender == '男') {
@@ -518,7 +519,6 @@
                 $('#gender3').prop('checked', 'checked')
 
             }
-
 
 
             var result = resp.address.split("/");

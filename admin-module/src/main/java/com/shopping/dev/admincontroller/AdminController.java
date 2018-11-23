@@ -5,6 +5,7 @@ import com.shopping.dev.admincontroller.addparams.addTotalParams;
 import com.shopping.dev.adminservice.AdminService;
 import com.shopping.dev.entity.*;
 import com.shopping.dev.resultwrapper.MyResultWrapper;
+import com.shopping.dev.resultwrapper.UploadFileResultWrapper;
 import com.shopping.dev.utils.CheckJson;
 import com.shopping.dev.utils.FileUpload;
 import com.shopping.dev.utils.PictureEdit;
@@ -14,7 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class AdminController {
@@ -23,9 +27,15 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("pic/upload")
-    public String picture(MultipartFile uploadFile){
+    public UploadFileResultWrapper picture(MultipartFile uploadFile) throws IOException {
+        System.out.println(Arrays.toString(uploadFile.getBytes()));
         byte[] edit = PictureEdit.edit(uploadFile);
-        return edit != null ? FileUpload.fileUpload(edit) : null;
+        if (edit != null) {
+            String url = FileUpload.fileUpload(edit);
+            return url != null ? UploadFileResultWrapper.success(url) : UploadFileResultWrapper.error();
+        } else {
+            return UploadFileResultWrapper.error();
+        }
     }
 
     //------------------------------查询商品-----------------------------------

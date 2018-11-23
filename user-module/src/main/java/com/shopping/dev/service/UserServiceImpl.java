@@ -1,6 +1,8 @@
 package com.shopping.dev.service;
 
 import com.shopping.dev.entity.User;
+import com.shopping.dev.entity.UserMessage;
+import com.shopping.dev.repository.UserMessageRepository;
 import com.shopping.dev.repository.UserRepository;
 import com.shopping.dev.utils.JwtUtils;
 import com.shopping.dev.utils.ResultWrapper;
@@ -25,6 +27,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository repository;
     @Resource
     private RedisTemplate redisTemplate;
+
+    @Resource
+    private UserMessageRepository userMessageRepository;
 
 
     /**
@@ -79,6 +84,11 @@ public class UserServiceImpl implements UserService {
         Timestamp d = new Timestamp(System.currentTimeMillis());
         user.setCreated(d);
         user.setUpdated(d);
+        User save = repository.save(user);
+
+        UserMessage userMessage = new UserMessage();
+        userMessage.setUid(Long.valueOf(save.getId()));
+        userMessageRepository.save(userMessage);
 
         return repository.save(user);
     }

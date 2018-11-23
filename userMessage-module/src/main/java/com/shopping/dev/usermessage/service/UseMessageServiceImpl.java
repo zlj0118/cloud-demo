@@ -13,7 +13,8 @@ public class UseMessageServiceImpl implements UserMessageService {
 
     @Override
     public Integer addUseMessage(UserMessage userMessage) {
-        return repository.update(userMessage);
+        System.out.println("=======");
+        return this.repository.update(userMessage);
     }
 
     @Override

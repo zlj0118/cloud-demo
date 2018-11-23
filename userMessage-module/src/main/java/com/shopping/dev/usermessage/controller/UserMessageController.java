@@ -36,7 +36,10 @@ public class UserMessageController {
         if (birthday != null) {
             userMessage.setBirthday(Date.valueOf(birthday));
         }
+        System.out.println("  =======");
+        System.out.println(userMessage);
         userMessageService.addUseMessage(userMessage);
+        System.out.println("=====-------");
         return userMessageService.findByUid(userMessage.getUid());
     }
 

@@ -9,5 +9,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class FrontServeApplication {
     public static void main(String[] args) {
         SpringApplication.run(FrontServeApplication.class,args);
+
     }
 }

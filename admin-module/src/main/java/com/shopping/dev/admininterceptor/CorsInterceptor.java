@@ -10,7 +10,7 @@ public class CorsInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         response.setHeader("Access-Control-Allow-Origin", "*");
-//        response.setHeader();
+        response.setHeader("Access-Control-Allow-Headers", "*");
 //        response.setHeader();
 //        response.setHeader();
         return true;
