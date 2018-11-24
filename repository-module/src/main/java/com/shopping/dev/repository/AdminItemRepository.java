@@ -18,4 +18,22 @@ public interface AdminItemRepository extends JpaRepository<Item, Long> {
     @Query(value = "update tb_item set status = :statuz where id in (:ids)", nativeQuery = true)
     int changeStatusByIds(@Param("statuz") int statuz,@Param("ids") List<Long> ids);
 
+    @Modifying
+    @Query(value = "insert into tb_item (title, sell_point, price, num, barcode, image, cid, created) " +
+            "values (:#{#item.title}, :#{#item.sellPoint}, :#{#item.price}, :#{#item.num}, :#{#item.barcode}, " +
+            ":#{#item.image}, :#{#item.cid}, :#{#item.created})", nativeQuery = true)
+    int addItem(@Param("item") Item item);
+
+    @Modifying
+    @Query(value = "update tb_item set " +
+            "title = :#{#item.title}, " +
+            "sell_point = :#{#item.sellPoint}, " +
+            "price = :#{#item.price}, " +
+            "num = :#{#item.num}, " +
+            "barcode = :#{#item.barcode}, " +
+            "image = :#{#item.image}, " +
+            "cid = :#{#item.cid}, " +
+            "updated = :#{#item.updated} " +
+            "where id = :#{#item.id}", nativeQuery = true)
+    int updateItemById(@Param("item") Item item);
 }

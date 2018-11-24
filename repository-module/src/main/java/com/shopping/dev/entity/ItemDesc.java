@@ -1,13 +1,28 @@
 package com.shopping.dev.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.sql.Timestamp;
 
+@Entity
+@Table(name = "tb_item_desc")
 public class ItemDesc {
 
+  @Id
   private Long itemId;
   private String itemDesc;
   private java.sql.Timestamp created;
   private java.sql.Timestamp updated;
 
+  public ItemDesc() {
+  }
+
+  public ItemDesc(Long itemId, String itemDesc, Timestamp created) {
+    this.itemId = itemId;
+    this.itemDesc = itemDesc;
+    this.created = created;
+  }
 
   public Long getItemId() {
     return itemId;

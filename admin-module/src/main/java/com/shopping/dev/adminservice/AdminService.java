@@ -3,6 +3,7 @@ package com.shopping.dev.adminservice;
 import com.shopping.dev.admincontroller.addparams.addTotalParams;
 import com.shopping.dev.entity.*;
 import com.shopping.dev.resultwrapper.MyResultWrapper;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -13,6 +14,10 @@ public interface AdminService {
     addTotalParams<Item> findAllItem(int page, int rows);
     List<ItemCartForEasyUiTree> findAllItemCat(int id);
     int changeStatusByIds(int status, List<Long> ids);
+    int addItemAndItemDesc(Item item,String desc);
+    ItemDesc findItemDescByItemId(long id);
+    ItemParamItem findItemParamByItemId(@PathVariable long id);
+    boolean updateItemAndParamAndDescById(Item item, String desc, String itemParams, long itemParamId);
 
     //-----------------------------规格参数-----------------------------------------
     addTotalParams<ItemParamAddItemCatName> findAllItemParam(int page, int rows);

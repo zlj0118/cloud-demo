@@ -9,16 +9,15 @@ import com.shopping.dev.resultwrapper.UploadFileResultWrapper;
 import com.shopping.dev.utils.CheckJson;
 import com.shopping.dev.utils.FileUpload;
 import com.shopping.dev.utils.PictureEdit;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class AdminController {
@@ -28,7 +27,6 @@ public class AdminController {
 
     @PostMapping("pic/upload")
     public UploadFileResultWrapper picture(MultipartFile uploadFile) throws IOException {
-        System.out.println(Arrays.toString(uploadFile.getBytes()));
         byte[] edit = PictureEdit.edit(uploadFile);
         if (edit != null) {
             String url = FileUpload.fileUpload(edit);
@@ -70,6 +68,39 @@ public class AdminController {
     public MyResultWrapper instockItemById(@RequestParam List<Long> ids) {
         int result = this.adminService.changeStatusByIds(2, ids);
         return result > 0 ? MyResultWrapper.success() : MyResultWrapper.error();
+    }
+
+    // 新增商品
+    @PostMapping("/item/save")
+    public MyResultWrapper addItemAndItemDesc(Item item,
+                                              @RequestParam(name = "desc") String desc) {
+        System.out.println("====================================================");
+        int result = this.adminService.addItemAndItemDesc(item, desc);
+        return result > 0 ? MyResultWrapper.success() : MyResultWrapper.error();
+    }
+
+    // 编辑商品
+    // 根据商品id查询内容
+    @GetMapping("/rest/item/query/item/desc/{id}")
+    public MyResultWrapper findItemDescByItemId(@PathVariable long id) {
+        ItemDesc itemDesc = this.adminService.findItemDescByItemId(id);
+        return itemDesc != null ? MyResultWrapper.success(itemDesc) : MyResultWrapper.error();
+    }
+    // 根据商品id查询规格
+    @GetMapping("/rest/item/param/item/query/{id}")
+    public MyResultWrapper findItemParamByItemId(@PathVariable long id) {
+        ItemParamItem itemParam = this.adminService.findItemParamByItemId(id);
+        return itemParam != null ? MyResultWrapper.success(itemParam) : MyResultWrapper.error();
+    }
+    // 更新商品
+    @PostMapping("/rest/item/update")
+    public MyResultWrapper updateItemAndParamAndDescById(Item item,
+                                                         @RequestParam(name = "desc")String desc,
+                                                         @RequestParam(name = "itemParams")String itemParams,
+                                                         @RequestParam(name = "itemParamId")long itemParamId) {
+        if (!CheckJson.checkJsonByGson(itemParams)) return MyResultWrapper.error();
+        boolean result = adminService.updateItemAndParamAndDescById(item, desc, itemParams, itemParamId);
+        return result ? MyResultWrapper.success() : MyResultWrapper.error();
     }
 
     //-----------------------------规格参数-----------------------------------------

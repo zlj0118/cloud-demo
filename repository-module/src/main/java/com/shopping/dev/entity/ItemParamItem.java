@@ -1,8 +1,13 @@
 package com.shopping.dev.entity;
 
+import javax.persistence.*;
 
+@Entity
+@Table(name = "tb_item_param_item")
 public class ItemParamItem {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private Long itemId;
   private String paramData;
