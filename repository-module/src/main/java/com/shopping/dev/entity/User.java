@@ -15,6 +15,7 @@ public class User {
     private String username;
     @Pattern(regexp = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$",message = "密码（6-16位数字和字母的组合)")
     private String password;
+
     @Pattern(regexp = ("^[1][3,4,5,8][0-9]{9}$"),message = "手机号非法")
     private String phone;
     @Pattern(regexp = "([0-9a-z]+\\\\.)+[0-9a-z]+$",message = "不是正确邮箱格式")

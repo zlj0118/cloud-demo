@@ -5,8 +5,6 @@ import com.shopping.dev.entity.*;
 import com.shopping.dev.repository.*;
 import com.shopping.dev.resultwrapper.MyResultWrapper;
 import com.shopping.dev.utils.GetTime;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +27,10 @@ public class AdminServiceImpl implements AdminService {
     private AdminContentRepository adminContentRepository;
     @Resource
     private AdminContentCategoryRepository adminContentCategoryRepository;
+    @Resource
+    private AdminItemDescRepository adminItemDescRepository;
+    @Resource
+    private AdminItemParamItemRepository adminItemParamItemRepository;
 
     //------------------------------查询商品-----------------------------------
     // 查询商品.分页
@@ -44,6 +46,45 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<ItemCartForEasyUiTree> findAllItemCat(int id) {
         return adminItemCatRepository.findItemCatByParentId(id);
+    }
+
+    // 上架|下架|删除;根据参数修改商品状态
+    @Transactional
+    @Override
+    public int changeStatusByIds(int status, List<Long> ids) {
+        return adminItemRepository.changeStatusByIds(status, ids);
+    }
+
+    // 插入商品
+    @Transactional
+    @Override
+    public int addItemAndItemDesc(Item item, String desc) {
+        item.setCreated(GetTime.now());
+        item.setStatus(1L);
+        Item itemNew = adminItemRepository.saveAndFlush(item);
+        Long itemId = itemNew.getId();
+        ItemDesc itemDesc = adminItemDescRepository.saveAndFlush(new ItemDesc(itemId, desc, GetTime.now()));
+        return itemDesc.getItemId() > 0 ? 1 : 0;
+    }
+
+    @Override
+    public ItemDesc findItemDescByItemId(long id) {
+        Optional<ItemDesc> itemDescOptional = adminItemDescRepository.findById(id);
+        return itemDescOptional.orElse(null);
+    }
+
+    @Override
+    public ItemParamItem findItemParamByItemId(long id) {
+        return adminItemParamItemRepository.findByItemId(id);
+    }
+
+    @Transactional
+    @Override
+    public boolean updateItemAndParamAndDescById(Item item, String desc, String itemParams, long itemParamId) {
+        int itemResult = adminItemRepository.updateItemById(item);
+        int itemDescResult = adminItemDescRepository.updateItemDescByItemId(item.getId(), GetTime.now(), desc);
+        int itemParamResult = adminItemParamItemRepository.updateItemParamItemBy(itemParams, itemParamId);
+        return itemResult > 0 && itemDescResult > 0 && itemParamResult > 0;
     }
 
     //-----------------------------规格参数-----------------------------------------
@@ -116,6 +157,8 @@ public class AdminServiceImpl implements AdminService {
         if (i > 0) {
             ContentCategory category = new ContentCategory(parentId, name, 1L, 1L, 0L, GetTime.now(), null);
             ContentCategory categoryResult = adminContentCategoryRepository.saveAndFlush(category);
+            // 根据category_id删除tb_content
+            adminContentRepository.deleteContentByIds(parentId);
             return categoryResult.getId() > 0 && categoryResult.getName() != null && categoryResult.getCreated() != null;
         } else {
             return false;
@@ -139,6 +182,7 @@ public class AdminServiceImpl implements AdminService {
         if (categoryRepositoryById.isPresent()) {
             ContentCategory category = categoryRepositoryById.get();
             // 判断删除项是否为父级,是父级则删除自己及所有子项,并将自己的is_parent值改为0;不是父级仅删除自身
+            // 同时根据category_id删除tb_content
             delete(category, id);
 
             // 判断父级是否删空,如果父级删空,将父级的is_parent改为0
@@ -162,6 +206,10 @@ public class AdminServiceImpl implements AdminService {
             }
             // 删除所有子标签
             adminContentCategoryRepository.deleteChildren(id);
+        }
+        if (category.getIsParent() == 0) {
+            // 根据category_id删除tb_content
+            adminContentRepository.deleteContentByIds(id);
         }
         // 删除当前标签
         adminContentCategoryRepository.deletePresent(id);

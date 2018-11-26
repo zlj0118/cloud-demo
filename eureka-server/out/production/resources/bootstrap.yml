@@ -7,3 +7,14 @@ spring:
       fail-fast: true
   profiles:
     active: dev
+
+eureka:
+  instance:
+    hostname: 172.16.16.81
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  service-url:
+    defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+#    eureka.client.register-with-eureka=false
+#    eureka.client.fetch-registry=false

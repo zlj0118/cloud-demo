@@ -22,4 +22,8 @@ public interface AdminContentRepository extends JpaRepository<Content, Long> {
     @Modifying
     @Query(value = "update tb_content set status = 0 where id in (:ids);", nativeQuery = true)
     int deleteContentByIds(@Param("ids") List<Long> ids);
+
+    @Modifying
+    @Query(value = "update tb_content set status = 0 where category_id = :categoryId", nativeQuery = true)
+    int deleteContentByIds(@Param("categoryId") long categoryId);
 }

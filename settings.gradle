@@ -12,10 +12,11 @@ include ':config-module',
         ':eureka-server',
         ':repository-module',
         ':web-module',
-        ':search-module',
         ':front-module',
+        ':cart-module',
         ':commons-module',
+        ':search-module',
         ':admin-module',
         ':order-module',
+        ':usermessage-module',
         ':user-module'
-

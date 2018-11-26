@@ -3,6 +3,7 @@ package com.shopping.dev.order.service;
 import com.shopping.dev.entity.Item;
 import com.shopping.dev.entity.Order;
 import com.shopping.dev.repository.OrderRepository;
+import com.shopping.dev.repository.OrderSearchRepository;
 import com.shopping.dev.repository.SearchRepository;
 import com.shopping.dev.utils.ResultWrapper;
 import com.shopping.dev.utils.SolrSearch;
@@ -22,14 +23,14 @@ import java.util.Map;
 @Service
 public class OrderServiceImpl implements OrderService {
     @Resource
-    OrderRepository orderRepository;
+    OrderSearchRepository orderSearchRepository;
 
     @Resource
     private SolrClient solr;
 
     @Override
     public ResultWrapper findAll(Long userId) {
-        List<Order> orders = orderRepository.findAllByUserId(userId);
+        List<Order> orders = orderSearchRepository.findAllByUserId(userId);
         return ResultWrapper.success(orders);
     }
 
@@ -37,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResultWrapper deleteByOrderId(String orderId) {
         try {
-            orderRepository.deleteByOrderId(orderId);
+            orderSearchRepository.deleteByOrderId(orderId);
             return ResultWrapper.success("删除成功");
         } catch (Exception e) {
             e.printStackTrace();

@@ -39,6 +39,7 @@ public class UserController {
      */
     @RequestMapping("/register")
     public ResultWrapper add(@Validated User user, BindingResult result) {
+        // 注册后台校验, 遍历所有不符合校验的信息,拼接成字符串
         ResultWrapper sb = getResultWrapper(result);
         if (sb != null) return sb;
         service.addAll(user);
@@ -67,7 +68,7 @@ public class UserController {
      */
     @RequestMapping("/check")
     public ResultWrapper check(User user) {
-        User loginUser = service.findUserByPhone(user);
+        User loginUser = service.findUserByPhoneOrUsername(user);
         if (loginUser != null) {
             return ResultWrapper.error(401, "已存在");
         } else {
@@ -87,16 +88,23 @@ public class UserController {
         // 判断校验是否有问题
         ResultWrapper sb = getResultWrapper(result);
         if (sb != null) return sb;
+        // token 中存用户名密码 用来校验登录 时用户名密码
         SimpleUsernameToken token = new SimpleUsernameToken(user.getUsername(), user.getPassword());
+
+        //信息返回给客户端，同时将登录用户的信息传递给Realm进行登录验证。
         SecurityUtils.getSubject().login(token);
 
-
         String jwtToken = (String) SecurityUtils.getSubject().getPrincipal();
+
         Map<String, Object> map = new HashMap<>();
         map.put("token", jwtToken);
         map.put("User", user);
+        User user1 = this.service.findByUsername(user);
+//      防止一个用户多次登录, 在Redis中一个key产生value
+        redisTemplate.delete("token:userId:" + user1.getId());
         ValueOperations opsValue = redisTemplate.opsForValue();
-        opsValue.set("token:userId:" + user.getId(), jwtToken);
+
+        opsValue.set("token:userId:" + user1.getId(), jwtToken);
         return ResultWrapper.success(map);
     }
 

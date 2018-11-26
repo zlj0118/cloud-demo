@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
  * @date:2018/10/30 17:18
  */
 
-@Configuration
+//@Configuration
 public class RedisConfig {
     //    第一个泛型是key的类型, 第二个是value的类型
 //    默认的bean的id是方法名

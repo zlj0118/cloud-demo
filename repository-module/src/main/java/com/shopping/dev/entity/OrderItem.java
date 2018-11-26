@@ -1,7 +1,10 @@
 package com.shopping.dev.entity;
 
-import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -9,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "tb_order_item")
 @Data
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class OrderItem implements Serializable {
 
     @Id
@@ -117,5 +121,4 @@ public class OrderItem implements Serializable {
     public void setPicPath(String picPath) {
         this.picPath = picPath;
     }
-
 }

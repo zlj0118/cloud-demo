@@ -1,6 +1,8 @@
 package com.shopping.dev.service;
 
 import com.shopping.dev.entity.User;
+import com.shopping.dev.entity.UserMessage;
+import com.shopping.dev.repository.UserMessageRepository;
 import com.shopping.dev.repository.UserRepository;
 import com.shopping.dev.utils.JwtUtils;
 import com.shopping.dev.utils.ResultWrapper;
@@ -26,6 +28,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     private RedisTemplate redisTemplate;
 
+    @Resource
+    private UserMessageRepository userMessageRepository;
+
 
     /**
      * 登录 根据用户名查询数据库是否有该用户,判断
@@ -38,7 +43,8 @@ public class UserServiceImpl implements UserService {
         System.out.println(user.getUsername());
         User user1 = repository.findByUsername(user.getUsername());
         System.out.println(user1);
-        if (user1 != null && !user1.equals("") && user1.getUsername().equals(user.getUsername()) && user1.getPassword().equals(user.getPassword())) {
+        if (user1 != null && !user1.equals("") && user1.getUsername().equals(user.getUsername())
+                && user1.getPassword().equals(user.getPassword())) {
             return user1;
         }
         return null;
@@ -50,7 +56,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public User findUserByPhone( User user) {
+    public User findUserByPhoneOrUsername( User user) {
         // 根据前端传入表单数据判断是否存在同名
         User user1 = repository.findUserByPhone(user.getPhone());
         if (user1 != null) {
@@ -78,6 +84,12 @@ public class UserServiceImpl implements UserService {
         Timestamp d = new Timestamp(System.currentTimeMillis());
         user.setCreated(d);
         user.setUpdated(d);
+        User save = repository.save(user);
+
+        UserMessage userMessage = new UserMessage();
+        userMessage.setUid(Long.valueOf(save.getId()));
+        userMessageRepository.save(userMessage);
+
         return repository.save(user);
     }
     @Override
@@ -89,4 +101,6 @@ public class UserServiceImpl implements UserService {
         redisTemplate.expire("token:userId:" + userId, 0, TimeUnit.MILLISECONDS);
         return ResultWrapper.success("退出成功") ;
     }
+
+
 }

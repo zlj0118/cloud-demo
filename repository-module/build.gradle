@@ -4,5 +4,5 @@ dependencies {
 //    implementation('org.springframework.boot:spring-boot-starter-data-rest')
     implementation('org.springframework.boot:spring-boot-starter-data-redis')
     implementation('org.springframework.boot:spring-boot-starter-jdbc')
-    runtimeOnly('mysql:mysql-connector-java')
+    implementation('mysql:mysql-connector-java')
 }

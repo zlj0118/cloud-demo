@@ -1,17 +1,23 @@
 package com.shopping.dev.admincontroller;
 
+import com.drew.imaging.jpeg.JpegProcessingException;
 import com.shopping.dev.admincontroller.addparams.addTotalParams;
 import com.shopping.dev.adminservice.AdminService;
 import com.shopping.dev.entity.*;
 import com.shopping.dev.resultwrapper.MyResultWrapper;
+import com.shopping.dev.resultwrapper.UploadFileResultWrapper;
 import com.shopping.dev.utils.CheckJson;
+import com.shopping.dev.utils.FileUpload;
+import com.shopping.dev.utils.PictureEdit;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class AdminController {
@@ -20,9 +26,14 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("pic/upload")
-    public void picture(MultipartFile uploadFile) throws IOException {
-        System.out.println(Arrays.toString(uploadFile.getBytes()));
-
+    public UploadFileResultWrapper picture(MultipartFile uploadFile) throws IOException {
+        byte[] edit = PictureEdit.edit(uploadFile);
+        if (edit != null) {
+            String url = FileUpload.fileUpload(edit);
+            return url != null ? UploadFileResultWrapper.success(url) : UploadFileResultWrapper.error();
+        } else {
+            return UploadFileResultWrapper.error();
+        }
     }
 
     //------------------------------查询商品-----------------------------------
@@ -40,6 +51,57 @@ public class AdminController {
         return adminService.findAllItemCat(id);
     }
 
+    // 删除
+    @PostMapping("/rest/item/delete")
+    public MyResultWrapper deleteItemById(@RequestParam List<Long> ids) {
+        int result = this.adminService.changeStatusByIds(0, ids);
+        return result > 0 ? MyResultWrapper.success() : MyResultWrapper.error();
+    }
+    // 上架
+    @PostMapping("/rest/item/reshelf")
+    public MyResultWrapper reshelfItemById(@RequestParam List<Long> ids) {
+        int result = this.adminService.changeStatusByIds(1, ids);
+        return result > 0 ? MyResultWrapper.success() : MyResultWrapper.error();
+    }
+    // 下架
+    @PostMapping("/rest/item/instock")
+    public MyResultWrapper instockItemById(@RequestParam List<Long> ids) {
+        int result = this.adminService.changeStatusByIds(2, ids);
+        return result > 0 ? MyResultWrapper.success() : MyResultWrapper.error();
+    }
+
+    // 新增商品
+    @PostMapping("/item/save")
+    public MyResultWrapper addItemAndItemDesc(Item item,
+                                              @RequestParam(name = "desc") String desc) {
+        System.out.println("====================================================");
+        int result = this.adminService.addItemAndItemDesc(item, desc);
+        return result > 0 ? MyResultWrapper.success() : MyResultWrapper.error();
+    }
+
+    // 编辑商品
+    // 根据商品id查询内容
+    @GetMapping("/rest/item/query/item/desc/{id}")
+    public MyResultWrapper findItemDescByItemId(@PathVariable long id) {
+        ItemDesc itemDesc = this.adminService.findItemDescByItemId(id);
+        return itemDesc != null ? MyResultWrapper.success(itemDesc) : MyResultWrapper.error();
+    }
+    // 根据商品id查询规格
+    @GetMapping("/rest/item/param/item/query/{id}")
+    public MyResultWrapper findItemParamByItemId(@PathVariable long id) {
+        ItemParamItem itemParam = this.adminService.findItemParamByItemId(id);
+        return itemParam != null ? MyResultWrapper.success(itemParam) : MyResultWrapper.error();
+    }
+    // 更新商品
+    @PostMapping("/rest/item/update")
+    public MyResultWrapper updateItemAndParamAndDescById(Item item,
+                                                         @RequestParam(name = "desc")String desc,
+                                                         @RequestParam(name = "itemParams")String itemParams,
+                                                         @RequestParam(name = "itemParamId")long itemParamId) {
+        if (!CheckJson.checkJsonByGson(itemParams)) return MyResultWrapper.error();
+        boolean result = adminService.updateItemAndParamAndDescById(item, desc, itemParams, itemParamId);
+        return result ? MyResultWrapper.success() : MyResultWrapper.error();
+    }
 
     //-----------------------------规格参数-----------------------------------------
     // 规格参数,多表查询

@@ -1,17 +1,22 @@
 package com.shopping.dev.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
+import java.util.Date;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "tb_order")
-@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Order implements Serializable {
 
@@ -128,7 +133,6 @@ public class Order implements Serializable {
     public void setPostFee(String postFee) {
         this.postFee = postFee;
     }
-
 
     public Long getStatus() {
         return status;

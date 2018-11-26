@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/css/base.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link href="/css/purchase.2012.css?v=201410141639" rel="stylesheet" type="text/css">
+    <title>我的购物车 - shop商城</title>
+    <script>
+        var pageConfig = {};
+    </script>
+<body>
+
+<script>
+    function selectItems(inputObj) {
+        console.log("走到选中方法");
+        var inputArray = document.getElementById("product-list").getElementsByTagName("input");
+        for (var i = 0; i < inputArray.length; i++) {
+            if (inputArray[i].type == "checkbox") {
+                inputArray[i].checked = inputObj.checked;
+
+            }
+        }
+    }
+</script>
+
+<!--shortcut start-->
+<div id="head"></div>
+<script>$("#head").load("/commons/shortcut.html");</script>
+
+<!--shortcut end-->
+<div class="w w1 header clearfix">
+    <div id="logo"><a href="/"><img clstag="clickcart|keycount|xincart|logo" src="/images/taotao-logo.gif"
+                                    title="返回shop商城首页" alt="返回shop商城首页"></a></div>
+    <div class="language"><a href="javascript:void(0);" onclick="toEnCart()"></a></div>
+    <div class="progress clearfix">
+        <ul class="progress-1">
+            <li class="step-1"><b></b>1.我的购物车</li>
+            <li class="step-2"><b></b>2.填写核对订单信息</li>
+            <li class="step-3">3.成功提交订单</li>
+        </ul>
+    </div>
+</div>
+<div class="w cart">
+    <div class="cart-hd group">
+        <h2>我的购物车</h2>
+    </div>
+    <div id="show">
+        <div class="cart-frame">
+            <div class="tl"></div>
+            <div class="tr"></div>
+        </div>
+        <div class="cart-inner">
+            <div class="cart-thead clearfix">
+                <div class="column t-checkbox form"><input data-cart="toggle-cb" name="toggle-checkboxes"
+                                                           id="toggle-checkboxes_up" type="checkbox"
+                                                           onclick="selectItems(this)"><label
+                        for="toggle-checkboxes_up">全选</label></div>
+                <div class="column t-goods">商品</div>
+                <div class="column t-price">shop价</div>
+                <div class="column t-promotion">优惠</div>
+                <div class="column t-inventory">库存</div>
+                <div class="column t-quantity">数量</div>
+                <div class="column t-action">操作</div>
+            </div>
+            <div id="product-list" class="cart-tbody">
+                <div id="product_item" data-bind="rowid:1" class="item item_selected ">
+                </div>
+            </div>
+        </div>
+        <!-- product-list结束 -->
+        <div id="cart-toolbar clearfix" class="cart-toolbar clearfix">
+            <div class="total fr">
+                <p><span class="totalSkuPrice">¥<font face="verdana" color="red" class="font3"></font></span>总计：</p>
+                <p><span id="totalRePrice">- ¥<font face="verdana" color="green" class="font1"></font></span>优惠：</p>
+            </div>
+            <div class="amout fr"><span id="selectedCount"><font face="verdana" color="red" class="font2"></font></span>
+                件商品
+            </div>
+        </div>
+        <div id="ui-ceilinglamp-1" class="ui-ceilinglamp-1" style="width: 988px; height: 49px;">
+            <div class="cart-dibu ui-ceilinglamp-current" style="width: 988px; height: 49px;">
+                <div class="control fdibu fdibucurrent">
+              <span class="column t-checkbox form">
+                  <input data-cart="toggle-cb" name="toggle-checkboxes" id="toggle-checkboxes_down" type="checkbox"
+                         value="" onclick="selectItems(this)" class="jdcheckbox">
+                  <label for="toggle-checkboxes_down">
+                          全选
+                  </label>
+              </span>
+                    <span class="delete">
+                  <b>
+                  </b>
+                  <a href="javascript:void(0);" clstag="clickcart|keycount|xincart|clearcartlink" id="remove-batch"
+                     onclick="fun()">
+                          删除选中的商品
+                  </a>
+              </span>
+                    <span class="shopping">
+                  <b>
+                  </b>
+                  <a href="/" target="_blank" clstag="clickcart|keycount|xincart|coudanlink" id="continue">继续购物</a>
+              </span>
+                </div>
+                <div class="cart-total-2014">
+                    <div class="cart-button">
+                  <span class="check-comm-btns" id="checkout-jd">
+                      <a class="checkout" clstag="clickcart|keycount|xincart|gotoOrderInfo" id="toSettlement">去结算<b></b></a>
+                  </span>
+                        <span class="combine-btns" style="display:none">
+                        <span class="fore1" style="display: none;">
+                          <a href="" class="combine-btn">不支持合并付款</a>
+                      </span>
+                      <span class="fore2 hide" style="display: inline;">
+                          <a href="javascript:goToOverseaOrder();" class="checkout-jdInt">去shop国际结算<b></b></a>
+                          <a href="javascript:goToOrder();" class="checkout-jd">去shop结算<b></b></a>
+                      </span>
+                  </span>
+                    </div>
+                    <div class="total fr">
+                        总计（不含运费）：
+                        <span class="totalSkuPrice">¥<font face="verdana" color="red" class="font4"></font></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div><!-- cart-inner结束 -->
+</div>
+</div>
+<!--推荐位html修改处-->
+<script>
+    function fun() {
+
+        check_val = [];
+        obj = document.getElementsByName("checkItem");
+        // check_num= $('#remove-batch').attr("itemNum");
+        // console.log(check_num);
+        for (k in obj) {
+            if (obj[k].checked)
+            // console.log(k);
+                check_val.push(obj[k].value);
+        }
+        // alert(check_val);
+        $.get("http://localhost:8770/cart/deleteChecked?list=" + check_val.toString(), function () {
+            window.location.reload();
+        })
+    }
+
+
+</script>
+<script type="text/javascript" src="/js/base-v1.js"></script>
+<!-- footer start -->
+<div id="footer"></div>
+<script>$("#footer").load("/commons/footer.html");</script>
+
+<!-- footer end -->
+<script type="text/javascript" src="/js/cart/cart-list.js"></script>
+<script type="text/javascript" src="/js/cart.js"></script>
+<script type="text/javascript" src="/js/jquery.price_format.2.0.min.js"></script>
+
+</body>
+</html>

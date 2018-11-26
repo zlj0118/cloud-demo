@@ -1,0 +1,13 @@
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('org.springframework.boot:spring-boot-starter-data-redis')
+    implementation('org.springframework.boot:spring-boot-starter-jdbc')
+    runtimeOnly('mysql:mysql-connector-java')
+    implementation project(':repository-module')
+    implementation project(':front-module')
+    implementation project(':commons-module')
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.0.4.RELEASE'
+    compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
+    implementation('org.springframework.boot:spring-boot-starter-data-rest')
+    implementation fileTree(include: ['*.jar'], dir: 'lib')
+}

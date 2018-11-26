@@ -30,8 +30,7 @@ public class OrderController {
 
     @RequestMapping("/search")
     public ResultWrapper
-    searchOrder(@RequestParam(name = "userId") Long userId,
-                @RequestParam(value = "keywords", defaultValue = "") String searchKeywords,
+    searchOrder(@RequestParam(value = "keywords", defaultValue = "") String searchKeywords,
                 @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
                 @RequestParam(value = "rows", defaultValue = "20") Integer rows)
             throws IOException, SolrServerException {

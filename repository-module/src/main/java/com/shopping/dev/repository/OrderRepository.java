@@ -9,12 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findAllByUserId(Long userId);
+/**
+ * 创建 JYQ  on  2018/11/21,10:48
+ */
+public interface OrderRepository extends JpaRepository<Order, String> {
+    //    @Query(value = "insert into tb_order(order_id,payment,payment_type,create_time,user_id) values (?,?,?,now(),?)", nativeQuery = true)
+//    int insertOrder(Order order);
 
-    @Modifying
-    @Transactional
-    @Query(value = "delete from tb_order where order_id = ?;", nativeQuery = true)
-    void deleteByOrderId(String orderId);
-//    List<Order> findByCondition(Long userId);
 }
