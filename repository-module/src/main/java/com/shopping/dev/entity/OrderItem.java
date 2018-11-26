@@ -13,10 +13,10 @@ public class OrderItem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
-    private String itemId;
+    private Long id;
+    private Long itemId;
     private String orderId;
-    private Long num;
+    private String num;
     private String title;
     private Long price;
     private Long totalFee;
@@ -49,20 +49,27 @@ public class OrderItem implements Serializable {
         this.item = item;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
+    public String getNum() {
+        return num;
+    }
 
-    public String getItemId() {
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+    public Long getItemId() {
         return itemId;
     }
 
-    public void setItemId(String itemId) {
+    public void setItemId(Long itemId) {
         this.itemId = itemId;
     }
 
@@ -73,15 +80,6 @@ public class OrderItem implements Serializable {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
-    }
-
-
-    public Long getNum() {
-        return num;
-    }
-
-    public void setNum(Long num) {
-        this.num = num;
     }
 
 

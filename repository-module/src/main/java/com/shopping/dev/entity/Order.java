@@ -103,7 +103,6 @@ public class Order implements Serializable {
         this.orderId = orderId;
     }
 
-
     public String getPayment() {
         return payment;
     }

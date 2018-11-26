@@ -25,17 +25,6 @@
     <div class="clr"></div>
     <div class="m clearfix" id="bottom_pager">
         <div id="pagin-btm" class="pagin fr" clstag="search|keycount|search|pre-page2">
-            <!--<div id="pageBtn">-->
-
-            <!--<a href="javascript:void(0)" class="current">1</a>-->
-            <!--<a href="search?keyword=java&enc=utf-8&qr=&qrst=UNEXPAND&rt=1&page=2">2</a>-->
-            <!--<a href="search?keyword=java&enc=utf-8&qr=&qrst=UNEXPAND&rt=1&page=3">3</a>-->
-            <!--<a href="search?keyword=java&enc=utf-8&qr=&qrst=UNEXPAND&rt=1&page=4">4</a>-->
-            <!--<a href="search?keyword=java&enc=utf-8&qr=&qrst=UNEXPAND&rt=1&page=5">5</a>-->
-            <!--<a href="search?keyword=java&enc=utf-8&qr=&qrst=UNEXPAND&rt=1&page=6">6</a>-->
-            <!--<span class="text">…</span>-->
-
-            <!--</div>-->
             <span class="page-skip" id="page-skip"></span>
         </div>
     </div>
@@ -52,9 +41,6 @@
 <script type="text/javascript" src="js/j.hashchange.js"></script>
 <script type="text/javascript" src="js/search_main.js"></script>
 <script type="text/javascript">
-    //${paginator.totalPages}
-    // SEARCH.query = "${query}";
-    // SEARCH.bottom_page_html(1, 10, '');
 </script>
 <script>
     $(document).ready(function () {
@@ -71,6 +57,7 @@
                 url = "http://localhost:8790/search/solr?currentPage=" + currentPage;
             }
         }
+        console.log(url);
         $.get(url, function (resp) {
             var data = resp.data;
             $.each(data.list, function (i, item) {

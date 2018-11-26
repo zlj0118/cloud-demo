@@ -9,7 +9,6 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
@@ -40,6 +39,13 @@ public class UserController {
      */
     @RequestMapping("/register")
     public ResultWrapper add(@Validated User user, BindingResult result) {
+        ResultWrapper sb = getResultWrapper(result);
+        if (sb != null) return sb;
+        service.addAll(user);
+        return ResultWrapper.success(null);
+    }
+
+    private ResultWrapper getResultWrapper(BindingResult result) {
         if (result.hasFieldErrors()) {
             StringBuilder sb = new StringBuilder();
             List<FieldError> errors = result.getFieldErrors();
@@ -49,8 +55,7 @@ public class UserController {
             }
             return ResultWrapper.error(405, sb.toString());
         }
-        service.addAll(user);
-        return ResultWrapper.success(null);
+        return null;
     }
 
     /**
@@ -80,15 +85,8 @@ public class UserController {
     @RequestMapping("/login")
     public ResultWrapper login(@Validated User user, BindingResult result) {
         // 判断校验是否有问题
-        if (result.hasFieldErrors()) {
-            StringBuilder sb = new StringBuilder();
-            List<FieldError> errors = result.getFieldErrors();
-            for (FieldError error : errors) {
-                String errorDefaultMessage = error.getDefaultMessage();
-                sb.append(errorDefaultMessage);
-            }
-            return ResultWrapper.error(405, sb.toString());
-        }
+        ResultWrapper sb = getResultWrapper(result);
+        if (sb != null) return sb;
         SimpleUsernameToken token = new SimpleUsernameToken(user.getUsername(), user.getPassword());
         SecurityUtils.getSubject().login(token);
 

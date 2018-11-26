@@ -119,11 +119,11 @@
                             <div class="extra-r">
                                 <div class="search-01">
                                     <input id="ip_keyword" name="" type="text" class="s-itxt" value="商品名称、商品编号、订单编号"
-                                           onfocus="if (this.value==this.defaultValue) this.value=''"
-                                           onblur="if (this.value=='') this.value=this.defaultValue"
-                                           onkeydown="javascript:if(event.keyCode==13) OrderSearch('ip_keyword');">
+                                           onfocus="if (this.value===this.defaultValue) this.value=''"
+                                           onblur="if (this.value==='') this.value=this.defaultValue"
+                                           onkeydown="javascript:if(event.keyCode==13) searchOrder(this.value);">
                                     <!--input name="" type="button" value="查 询" class="btn-13" onclick="OrderSearch('ip_keyword')" clstag="click|keycount|orderinfo|search"/-->
-                                    <a href="javascript:;" class="btn-13" onclick="OrderSearch('ip_keyword')"
+                                    <a href="javascript:;" class="btn-13" onclick="searchOrder('ip_keyword')"
                                        clstag="click|keycount|orderinfo|search">查 询</a>
                                 </div>
                             </div>
@@ -185,14 +185,9 @@
                             </table>
                         </div>
                         <div class="mt10">
-                            <div class="pagin fr">
-                                <!--  <span class="text">共20条记录</span>    <span class="text">共1页</span> -->
-                                <span class="prev-disabled">上一页<b></b></span>
-
-                                <!-- <span class="prev-disabled">首页</span> -->
-                                <a class="current">1</a><!-- <span class="next-disabled">末页</span>  -->
-                                <span class="next-disabled">下一页<b></b></span>
-
+                            <!--  <span class="text">共20条记录</span>    <span class="text">共1页</span> -->
+                            <div id="pagin-btm" class="pagin fr" clstag="search|keycount|search|pre-page2">
+                                <span class="page-skip" id="page-skip"></span>
                             </div>
                             <div class="clr"></div>
                         </div>
@@ -335,8 +330,38 @@
 </div>
 <!-- footer end -->
 <script>
+    function deleteOrder(orderId) {
+        var url = "http://localhost:8799/order/delete?orderId=" + orderId;
+        console.log(orderId);
+        $.get(url, function (resp) {
+            if (resp.code != null) {
+                alert(resp.message)
+            } else (
+                alert(resp.data)
+            )
+        })
+    }
+
+    // function searchOrder(keyword) {
+    //     var url = "http://localhost:8799/order/search?keywords=" + keyword;
+    //     console.log(keyword);
+    //     $.get(url, function (resp) {
+    //         console.log(resp)
+    //     })
+    // }
+
+    function searchOrder(a) {
+        var b = "http://localhost:8799/order/search?keywords=" + encodeURIComponent(document.getElementById(a).value);
+        return window.location.href = b;
+    }
+
     $(document).ready(function () {
-        var url = "http://localhost:8799/order/all?userId=1";
+        var keywords = $.Request("keywords");
+        var userId = $.Request("userId");
+        var url = "http://localhost:8799/order/all?userId=" + userId;
+        if (keywords != null){
+
+        }
         $.get(url,
             function drawTable(resp) {
                 var data = resp.data;
@@ -347,7 +372,7 @@
                     var td = $('<td colspan="6"/>');
                     // 订单编号
                     var orderNum = i.orderId;
-                    var a = $('<a name="orderIdLinks" id="idUrl2538292730" target="_blank" href=" ' + orderNum + '" clstag="click|keycount|orderinfo|order_num">' + orderNum + '</ a>');
+                    var a = $('<a name="orderIdLinks" id="idUrl2538292730" target="_blank" href="my-order-comment.html?orderId= ' + i.orderId + ' clstag="click|keycount|orderinfo|order_num">' + orderNum + '</a>');
                     var numSpan = $('<span class="tcol1">订单编号:</span>');
                     numSpan.append(a);
                     var shopSpan = $('<span class="tcol2">shop</span>');
@@ -420,10 +445,10 @@
                         'href="my-order-comment.html?orderId=' + i.orderId + '"\n' +
                         'clstag="click|keycount|orderinfo|order_check">查看</a><span\n' +
                         'id="order_comment"></span><span class="pop-recycle-a">|<a\n' +
-                        'href="javascript:void(0)" name="' + i.orderId + '" clstag="click|keycount|orderinfo|order_del"\n' +
-                        'onclick="deleteOrder(this);">删除</a></span><span\n' +
+                        'name="' + i.orderId + '" clstag="click|keycount|orderinfo|order_del"\n' +
+                        'onclick="deleteOrder(this.name);">删除</a></span><span\n' +
                         'id="doi2538292730"><br><a\n' +
-                        'href="/my-order-comment.html" target="_blank" clstag="click|keycount|orderinfo|order_comment">评价晒单</ a><br></span><a\n' +
+                        'href="my-order-comment.html?orderId=' + i.orderId + 'target="_blank" clstag="click|keycount|orderinfo|order_comment">评价晒单</ a><br></span><a\n' +
                         'href="" target="_blank" clstag="click|keycount|orderinfo|order_repair">申请返修/退换货</a>' +
                         '<a class="btn-again" clstag="click|keycount|orderlist|buy"\n' +
                         'href="" target="_blank">还要买</a></td>');
@@ -435,7 +460,34 @@
                         .append(td5);
                     tbody.append(tr).append(tr1);
                 }
-            })
+            });
+    });
+
+    $.extend({
+        Request: function (m) {
+            var sValue = location.search.match(new RegExp("[\?\&]" + m + "=([^\&]*)(\&?)", "i"));
+            return sValue ? sValue[1] : sValue;
+        },
+        UrlUpdateParams: function (url, name, value) {
+            var r = url;
+            if (r != null && r != 'undefined' && r != "") {
+                value = encodeURIComponent(value);
+                var reg = new RegExp("(^|)" + name + "=([^&]*)(|$)");
+                var tmp = name + "=" + value;
+                if (url.match(reg) != null) {
+                    r = url.replace(eval(reg), tmp);
+                }
+                else {
+                    if (url.match("[\?]")) {
+                        r = url + "&" + tmp;
+                    } else {
+                        r = url + "?" + tmp;
+                    }
+                }
+            }
+            return r;
+        }
+
     })
 </script>
 </body>
